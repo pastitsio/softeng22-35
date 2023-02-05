@@ -1,15 +1,18 @@
+const bodyParser = require('body-parser');
 const express = require('express');
+const morgan = require('morgan');
+
 const app = express();
 
-
-
+const doanswerRoutes = require('./routes/doanswer.routes');
+const healthcheckRoutes = require('./routes/healthcheck.routes');
+const questionRoutes = require('./routes/question.routes');
+const questionnaireRoutes = require('./routes/questionnaire.routes');
 
 // Logger
-const morgan = require('morgan');
 app.use(morgan('dev'));
 
 // Parser
-const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -29,18 +32,10 @@ app.use((req, res, next) => {
 })
 
 // Routes that handle requests
-const questionnaireRoutes = require('./routes/questionnaire.routes');
-app.use('/questionnaire', questionnaireRoutes);
-
-const doanswerRoutes = require('./routes/doanswer.routes');
 app.use('/doanswer', doanswerRoutes);
-
-
-const questionRoutes = require('./routes/question.routes');
-app.use('/question', questionRoutes);
-
-var healthcheckRoutes = require('./routes/healthcheck.routes');
 app.use('/healthcheck', healthcheckRoutes);
+app.use('/question', questionRoutes);
+app.use('/questionnaire', questionnaireRoutes);
 
 // If execution gets here, req was not handled by routes above,
 // so there's an error.
@@ -50,7 +45,8 @@ app.use((req, res, next) => {
     next(error);
 });
 
-// handles error from everywhere in the application, i.e. when SQL is added
+// handles error from everywhere in the application, also from above.
+// i.e. when DB is added
 app.use((error, req, res, next) => {
     res.status(error.status || 500);
     res.json({

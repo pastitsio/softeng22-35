@@ -1,7 +1,8 @@
 const colors = require('colors/safe');
 const https = require('https');
 const fs = require('fs');
-const mysql = require('mysql');
+// const mysql = require('mysql');
+const mongoose = require('mongoose');
 
 const app = require('./app');
 
@@ -9,8 +10,8 @@ const app = require('./app');
 colors.enable();
 const log = colors.cyan.underline
 
+// app server
 const server_port = process.env.PORT || 4000;
-
 https
     .createServer(
         {
@@ -18,25 +19,22 @@ https
             cert: fs.readFileSync('auth/cert.pem'),
         },
         app
-    ).listen(server_port, () => { console.log(log(`Running on port: ${server_port}.`)) });
+    ).listen(server_port, () => { console.log(log(`Running on port: {${server_port}}.`)) });
 
 
 // DB
-console.log(log(`Attempting to connect to database ${process.env.DB_NAME}`))
-
-var connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: process.env.DB_PASS,
-  //  database : 'TOBEANNOUNCED' // TODO: put the  name 
-});
+console.log(log(`Attempting to connect to database {${process.env.DB_NAME}}`))
 
 
-connection.connect(function (err) {
-    if (err) throw err;
-    console.log('Connected!');
-});
+const uri = `mongodb+srv://admin:${process.env.MONGO_ATLAS_PW}@softeng22-35-mongo-clus.js8eu1b.mongodb.net/?retryWrites=true&w=majority`;
+mongoose.connect(uri);
+mongoose.set('strictQuery', true);
+// client.connect(err => {
+//     const collection = client.db("test").collection("devices");
+//     // perform actions on the collection object
+//     client.close();
+// });
 
-module.exports.connection = connection;
+// module.exports.connection = connection;
 
 
