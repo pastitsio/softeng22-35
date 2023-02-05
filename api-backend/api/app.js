@@ -35,6 +35,13 @@ app.use('/questionnaire', questionnaireRoutes);
 const doanswerRoutes = require('./routes/doanswer.routes');
 app.use('/doanswer', doanswerRoutes);
 
+
+const questionRoutes = require('./routes/question.routes');
+app.use('/question', questionRoutes);
+
+var healthcheckRoutes = require('./routes/healthcheck.routes');
+app.use('/healthcheck', healthcheckRoutes);
+
 // If execution gets here, req was not handled by routes above,
 // so there's an error.
 app.use((req, res, next) => {

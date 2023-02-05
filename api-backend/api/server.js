@@ -24,13 +24,19 @@ https
 // DB
 console.log(log(`Attempting to connect to database ${process.env.DB_NAME}`))
 
-// var con = mysql.createConnection({
-//   host: 'localhost',
-//   user: process.env.DB_USER,
-//   password: process.env.DB_PASS
-// });
-// con.connect(function(err) {
-//   if (err) throw err;
-//   console.log('Connected!');
-// });
+var connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: process.env.DB_PASS,
+  //  database : 'TOBEANNOUNCED' // TODO: put the  name 
+});
+
+
+connection.connect(function (err) {
+    if (err) throw err;
+    console.log('Connected!');
+});
+
+module.exports.connection = connection;
+
 
