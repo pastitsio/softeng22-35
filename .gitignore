@@ -1,6 +1,6 @@
 # Ignore everything
 /*
-**/node_modules/**
+**/node_modules/
 **/error_guidelines.md
 # EXCEPT
 !/api-backend
