@@ -1,31 +1,23 @@
 
 const express = require("express");
+const { default: mongoose } = require("mongoose");
 const router = express.Router();
 
 const server = require('../server');
 // API call for testing the connection with the database
 
 router.get("/", (req, res, next) => {
-    server.connection.ping(function (err) {
-        if (err) {
-            res.status(200).json({
-                status: "Failed",
-                dbconnection: err.message
+    var state = mongoose.connection.readyState
+    if (state) {
+        res.status(200).json({
+            "status": "OK", "dbconnection": "Database connected and ready to use"
+        })
+    } else {
+        res.status(500).json({
+            "status": "failed", "dbconnection": "There seems to be a problem with the database at this moment"
+        })}
 
-            });
-        }
-        else {
-            res.status(200).json({
-                status: "OK",
-                dbconnection: "Connected to " + server.connection.config,
+});// 200: success
 
-            });
-        }
-
-    });// 200: success
-
-
-
-});
 
 module.exports = router;

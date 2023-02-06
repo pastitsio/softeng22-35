@@ -28,12 +28,3 @@ console.log(log(`Attempting to connect to database {${process.env.DB_NAME}}`))
 
 const uri = `mongodb+srv://admin:${process.env.MONGO_ATLAS_PW}@softeng22-35-mongo-clus.js8eu1b.mongodb.net/?retryWrites=true&w=majority`;
 mongoose.connect(uri);
-// client.connect(err => {
-//     const collection = client.db("test").collection("devices");
-//     // perform actions on the collection object
-//     client.close();
-// });
-
-// module.exports.connection = connection;
-
-
