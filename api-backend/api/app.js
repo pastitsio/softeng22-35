@@ -5,7 +5,7 @@ const morgan = require('morgan');
 const app = express();
 
 const doanswerRoutes = require('./routes/doanswer.routes');
-const healthcheckRoutes = require('./routes/healthcheck.routes');
+// const adminRoutes = require('./routes/admin.routes');
 const questionRoutes = require('./routes/question.routes');
 const questionnaireRoutes = require('./routes/questionnaire.routes');
 
@@ -33,7 +33,7 @@ app.use((req, res, next) => {
 
 // Routes that handle requests
 app.use('/doanswer', doanswerRoutes);
-app.use('/healthcheck', healthcheckRoutes);
+// app.use('/admin', adminRoutes);
 app.use('/question', questionRoutes);
 app.use('/questionnaire', questionnaireRoutes);
 

@@ -7,32 +7,46 @@ const router = express.Router();
 const log = colors.cyan.underline
 
 const Questionnaire = require('../models/questionnaire.model');
+const Question = require('../models/question.model');
+const { json } = require("body-parser");
 
 router.get("/:questionnaireId", (req, res, next) => {
     const questionnaireId = req.params.questionnaireId;
 
-    Questionnaire.find({questionnaireId: questionnaireId})
+    Questionnaire.findById(questionnaireId)
         .exec()
         .then(doc => {
-            console.log(`Just got this ${doc.questionnaireId}`);
-            res.status(200).json(doc);
+            console.log(doc.questions);
+            // res.status(200).json({
+            //     returnedQuestionnaire: doc
+            // })
+            Question.find({'_id' : { $in: doc.questions}})
+                .exec()
+                .then(qs => {
+                    res.status(200).json({
+                        questionnaire: {
+                            questionnaireId: doc._id,
+                            questionnaireTitle: doc.questionnaireTitle,
+                            keywords: doc.keywords,
+                            questions: qs                
+                        }
+                    });
+                })
+                ;
         })
         .catch(error => {
-            console.log(error)
-            res.status(500).json({
-                message: "Error fetching data.",
-                error: error
-            })
+            next(new Error(`questionnaireId: ${questionnaireId} not found`))
         });
+    
 });
 
 // test
 router.post('/', (req, res, next) => {
     const questionnaire = new Questionnaire({
-        _id: new mongoose.Types.ObjectId(),
-        questionnaireId: req.body.questionnaireId,
+        _id: req.body.questionnaireId,
         questionnaireTitle: req.body.questionnaireTitle,
-        keywords: req.body.keywords
+        keywords: req.body.keywords,
+        questions: req.body.questions
     });
 
     // save on DB
@@ -43,9 +57,9 @@ router.post('/', (req, res, next) => {
                 message: "Handling POST request to /questionnaire",
                 createdQuestionnaire: questionnaire
             });
-        })            
+        })
         .catch(error => console.log(error));
-    
+
 });
 
 module.exports = router;
