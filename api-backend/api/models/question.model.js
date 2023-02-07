@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const questionSchema = mongoose.Schema({
     _id: String,
     qText: String,
-    required: Boolean,
+    required: String,
 
     type: { String, enum: ['profile', 'question'] },
     options: [{
