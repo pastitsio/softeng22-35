@@ -10,11 +10,13 @@ router.get("/", (req, res, next) => {
     var state = mongoose.connection.readyState
     if (state) {
         res.status(200).json({
-            "status": "OK", "dbconnection": "Database connected and ready to use"
+            status: "OK",
+            dbconnection: "Database connected and ready to use."
         })
     } else {
         res.status(500).json({
-            "status": "failed", "dbconnection": "There seems to be a problem with the database at this moment"
+            status: "Failed", 
+            dbconnection: "There seems to be a problem with the database at this moment."
         })}
 
 });// 200: success
