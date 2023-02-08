@@ -8,3 +8,6 @@ const sessionSchema = mongoose.Schema({
         optID: String
     }]
 });
+
+
+module.exports = mongoose.model('Session', sessionSchema);
