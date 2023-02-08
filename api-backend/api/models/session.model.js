@@ -4,7 +4,7 @@ const sessionSchema = mongoose.Schema({
     _id: String,
     questionnaireId: String,
     answers: [{
-        qId: String,
-        optId: String
+        qID: String,
+        optID: String
     }]
 });

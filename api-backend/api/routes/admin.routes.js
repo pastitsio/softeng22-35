@@ -15,7 +15,7 @@ app.use((req, res, next) => {
 
 
 const healthcheckRoutes = require('./healthcheck.routes');
-const questionnaire_updRoutes = require('./questionnaire_udp.routes')
+const questionnaire_updRoutes = require('./questionnaire_upd.routes')
 const resetallRoutes = require('./resetall.routes');
 const resetqRoutes = require('./resetq.routes');
 
