@@ -1,27 +1,35 @@
 const Question = require('../models/question.model');
-const Questionnaire = require('../models/questionnaire.model.js');
+const Questionnaire = require('../models/questionnaire.model');
 
 exports.getQuestion = async function (questionId) {
     try {
-        const question = await Question.findById(questionId).exec();
-        return question;
+        var question = await Question.findById(questionId).exec();
     } catch (err) { throw err; }
+    if (question === null) {
+        throw new Error(`Question[${questionId}] does NOT exist.`);
+    }
+    return question;
 }
 
 exports.getQuestionnaireQuestion = async function (questionnaireId, questionId) {
-    try {
-        const questionnaire = await Questionnaire.findById(questionnaireId).exec();
-        if (questionnaire.questions.includes(questionId) === false) {
-            throw new Error(`Question[${questionId}] not in Questionnaire[${questionnaireId}]`);
-        }
-        const questionDoc = await Question.findById(questionId).exec();
-
-        var question = questionDoc.toObject(); // mongoose object to js object
-        question.questionnaireId = questionnaireId; // add field
-
-        return question;
-
+    try { // get questionnaire
+        var questionnaire = await Questionnaire.findById(questionnaireId);
     } catch (err) { throw err; }
+
+    questionnaire.questions instanceof Array;
+    // var q = questionnaire.questions.find(q => q._id == questionId); // check if q Id
+    if (questionnaire.questions.includes(questionId) === false) {
+        throw new Error(`Question[${questionId}] not in Questionnaire[${questionnaireId}]`);
+    }
+
+    try { // get question
+        var question = await this.getQuestion(questionId);
+    } catch (err) { throw err; }
+
+    question.questionnaireId = questionnaireId; // add field
+
+    return question;
+
 }
 
 exports.postQuestion = (req, res, next) => {

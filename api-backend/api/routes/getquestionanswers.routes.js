@@ -5,16 +5,16 @@ const formatData = require('../helpers/helpers').formatData;
 
 const sessionController = require('../controllers/session.controller');
 
-router.get('/:questionnaireId/:sessionId', async (req, res, next) => {
+
+router.get('/:questionnaireId/:questionId', async (req, res, next) => {
     const format = req.query.format;
     const questionnaireId = req.params.questionnaireId;
-    const sessionId = req.params.sessionId;
+    const questionId = req.params.questionId;
 
     try {
-        const sessionAnswers = await sessionController.getSessionAnswers(questionnaireId, sessionId);
-        res.status(200).send(formatData(format, sessionAnswers));
+        const questionAnswers = await sessionController.getQuestionAnswers(questionnaireId, questionId);
+        res.status(200).send(formatData(format, questionAnswers));
     } catch (err) { next(err) };
-
 
 })
 

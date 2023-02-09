@@ -12,8 +12,7 @@ router.get("/:questionnaireId", async (req, res, next) => {
     try {
         const questionnaire = await questionnaireController.getQuestionnaire(questionnaireId);
         res.status(200).send(formatData(format, questionnaire));
-
-    } catch (err) { throw err; };
+    } catch (err) { next(err) };
 });
 
 // for testing

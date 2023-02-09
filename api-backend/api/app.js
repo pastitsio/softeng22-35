@@ -4,10 +4,12 @@ const morgan = require('morgan');
 
 const app = express();
 
-const doanswerRoutes = require('./routes/doanswer.routes');
 const adminRoutes = require('./routes/admin.routes');
 const questionRoutes = require('./routes/question.routes');
 const questionnaireRoutes = require('./routes/questionnaire.routes');
+const doanswerRoutes = require('./routes/doanswer.routes');
+const getSessionAnswersRoutes = require('./routes/getsessionanswers.routes');
+const getQuestionAnswersRoutes = require('./routes/getquestionanswers.routes');
 
 // Logger
 app.use(morgan('dev'));
@@ -22,7 +24,7 @@ app.use(bodyParser.json());
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*'); // TODO: add client-url when front-end is ready.
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-    
+
     // Only on OPTIONS message.
     if (req.method === 'OPTIONS') {
         res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
@@ -32,10 +34,12 @@ app.use((req, res, next) => {
 })
 
 // Routes that handle requests
-app.use('/doanswer', doanswerRoutes);
 app.use('/admin/', adminRoutes);
 app.use('/question', questionRoutes);
 app.use('/questionnaire', questionnaireRoutes);
+app.use('/doanswer', doanswerRoutes);
+app.use('/getsessionanswers', getSessionAnswersRoutes);
+app.use('/getquestionanswers', getQuestionAnswersRoutes);
 
 // If execution gets here, req was not handled by routes above,
 // so there's an error.
@@ -50,9 +54,9 @@ app.use((req, res, next) => {
 app.use((error, req, res, next) => {
     res.status(error.status || 500);
     res.json({
-        error: {
-            message: error.message
-        }
+        success: false,
+        message: error.message
+
     });
 });
 

@@ -13,8 +13,8 @@ router.get("/:questionId", async (req, res, next) => {
     try {
         const question = await questionController.getQuestion(questionId);
         res.status(200).send(formatData(format, question));
-    } catch (err) { throw err; };
-});
+    } catch (err) { next(err) }
+})
 
 router.get("/:questionnaireId/:questionId", async (req, res, next) => {
     const format = req.query.format;
@@ -24,8 +24,8 @@ router.get("/:questionnaireId/:questionId", async (req, res, next) => {
     try {
         const question = await questionController.getQuestionnaireQuestion(questionnaireId, questionId);
         res.status(200).send(formatData(format, question));
-    } catch (err) { throw err; };
-});
+    } catch (err) { next(err); };
+})
 
 router.post("/:questionId", questionController.postQuestion);
 
