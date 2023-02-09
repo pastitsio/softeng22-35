@@ -4,7 +4,7 @@ const Session = require('../models/session.model');
 
 
 exports.getSessionAnswers = async (questionnaireId, sessionId) => {
-    try {
+    try { // fetch session
         var session = await Session.findById(sessionId).exec();
     } catch (err) { throw err; }
 
@@ -12,6 +12,7 @@ exports.getSessionAnswers = async (questionnaireId, sessionId) => {
         throw new Error(`Session[${sessionId}] does NOT exist.`)
     }
 
+    // find questionnaire
     const questionnaire = session.questionnaires.find(q => q.questionnaireId === questionnaireId);
     if (questionnaire === undefined) {
         throw new Error(`Questionnaire[${questionnaireId}] not in Session[${sessionId}].`)
@@ -27,17 +28,18 @@ exports.getSessionAnswers = async (questionnaireId, sessionId) => {
 
 exports.getQuestionAnswers = async (questionnaireId, questionId) => {
     var ret = [];
-    for await (const session of Session.find()) {
+    for await (const session of Session.find()) { // for every session
+        // find session containing questionnaire
         var sQ = session.questionnaires.filter(q => q.questionnaireId === questionnaireId);
-        sQ.forEach(Q => {
-            var answers = Q.answers;
-            answers.filter(ans => ans.qID === questionId)
-                .map(ans => ret.push({
-                    session: session._id,
-                    ans: ans.optID
-                }));
-        });
+    
+        // find answers containing questionId
+        var answers = sQ.answers.filter(ans => ans.qID === questionId);
+        answers.map(ans => ret.push({
+            session: session._id,
+            ans: ans.optID
+        }));
     }
+
     return {
         questionnaireId: questionnaireId,
         questionID: questionId,

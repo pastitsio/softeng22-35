@@ -4,89 +4,67 @@ const fs = require('fs')
 const router = express.Router();
 
 const Questionnaire = require('../models/questionnaire.model');
+const questionnaireController = require('../controllers/questionnaire.controller');
+
 const Question = require('../models/question.model');
+const questionController = require('../controllers/question.controller');
 
-router.post('/', multer({ filename: (req, file, cb) => { cb(null, file.originalname) }, dest: "./uploads", }).single('file'), async function (req, res) {
+router.post('/', multer({ filename: (req, file, cb) => { cb(null, file.originalname) }, dest: "./uploads", })
+    .single('file'), async (req, res, next) => {
 
-    let rawdata = fs.readFileSync('./uploads/' + req.file.filename);
-    let sentdata = JSON.parse(rawdata);
-    var sentquestions = []
-    var qIdArray = [];
+        var error = new Error();
 
-    for (let i = 0; i < sentdata.questions.length; i++) {
-        qIdArray.push(sentdata.questions[i][Object.keys(sentdata.questions[i])[0]])
-        sentquestions.push(new Question({
-            _id: sentdata.questions[i][Object.keys(sentdata.questions[i])[0]],
-            qText: sentdata.questions[i].qtext,
-            required: sentdata.questions[i].required,
-            qType: sentdata.questions[i].type,
-            options: [{
-                optId: sentdata.questions[i].options[0].optID,
-                optText: sentdata.questions[i].options[0].opttxt,
-                nextqId: sentdata.questions[i].options[0].nextqID
-            }],
-        }))
-    }
+        var rawData = fs.readFileSync('./uploads/' + req.file.filename);
+        var inputData = JSON.parse(rawData);
+        var quIdArray = [];
 
-    var createdQuestionnaire = new Questionnaire({
-        _id: sentdata.questionnaireID,
-        questionnaireTitle: sentdata.questionnaireTitle,
-        keywords: sentdata.keywords,
-        questions: qIdArray
-    });
+        inputData.questions instanceof Array;
+        await Promise.all( // upload questions in parallel
+            inputData.questions.map(async (question) => {
 
-    let errorOccurred = false;
+                // parse question input data
+                let quId, qText, required, qType;
+                try {
+                    quId = question._id;
+                    qText = question.qText;
+                    required = question.required;
+                    qType = question.type;
 
-    await createdQuestionnaire.save().then().catch((err) => {
-        if (err) {
-            if (err.name === 'MongoServerError' && err.code === 11000) {
-                if (!errorOccurred) {
-                    errorOccurred = true;
-                    res.status(422).json({
-                        success: false,
-                        message: 'id already exist!'
-                    });
-                }
-            } else if (!errorOccurred) {
-                errorOccurred = true;
-                res.status(500).json({
-                    uccess: false,
-                    message: err
-                })
-            }
-        }
-    });
-
-    for (let i = 0; i < sentquestions.length; i++) {
-        await sentquestions[i].save().then().catch((err) => {
-            if (err) {
-                if (err.name === 'MongoServerError' && err.code === 11000) {
-                    if (!errorOccurred) {
-                        errorOccurred = true;
-                        res.status(422).json({
-                            success: false,
-                            message: 'id already exist!'
-                        });
-                    }
-                } else if (!errorOccurred) {
-                    errorOccurred = true;
-                    res.status(500).json({
-                        uccess: false,
-                        message: err
+                    var options = [];
+                    question.options instanceof Array;
+                    question.options.forEach(opt => {
+                        options.push({
+                            optId: opt.optID,
+                            optText: opt.opttxt,
+                            nextqId: opt.nextqID
+                        })
                     })
-                }
-            }
+                } catch (err) { error.message = 'Error parsing JSON data on question level.'; throw error; }
+
+                // upload question
+                await questionController.postQuestion(quId, qText, required, qType, options)
+                    .then(() => { quIdArray.push(quId); })
+                    .catch(err => { error.message += `Question[${quId}] error uploading |`; });
+            }))
+
+        // parse questionnaire input data
+        let QId, questionnaireTitle, keywords, questions;
+        try {
+            QId = inputData.questionnaireID;
+            questionnaireTitle = inputData.questionnaireTitle;
+            keywords = inputData.keywords;
+            questions = quIdArray;
+        } catch (err) { error.message = 'Error parsing JSON data on questionnaire level.'; throw error; }
+
+        questionnaireController.postQuestionnaire(QId, questionnaireTitle, keywords, questions)
+            .catch(next);
+
+        res.status(200).json({
+            success: true,
+            message: `Uploaded Questionnaire[${_id} with questions[${quIdArray}].`
         });
     }
-    if (!errorOccurred) {
-        res.status(200).json({
-            uccess: true,
-            message: 'The questionnaire was successfully uploaded'
-        })
-    }
-
-
-});
+)
 
 
 module.exports = router;

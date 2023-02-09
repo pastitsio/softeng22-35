@@ -32,24 +32,14 @@ exports.getQuestionnaireQuestion = async function (questionnaireId, questionId) 
 
 }
 
-exports.postQuestion = (req, res, next) => {
-    const questionId = req.params.questionId;
+exports.postQuestion = (_id, qText, required, type, options) => {
     const question = new Question({
-        _id: questionId,
-        qText: req.body.qText,
-        required: req.body.required,
-        type: req.body.type,
-        options: req.body.options
+        _id: _id,
+        qText: qText,
+        required: required,
+        type: type,
+        options: options,
     })
 
-    question
-        .save()
-        .then(() => {
-            log('Question uploaded.');
-            res.status(200).json({
-                success: true,
-                message: `Question[${questionId}] uploaded.`
-            });
-        })
-        .catch(next);
+    return question.save();
 }

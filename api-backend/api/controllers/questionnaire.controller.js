@@ -26,24 +26,14 @@ exports.getQuestionnaire = async function (questionnaireId) {
     } catch (err) { throw err; }
 }
 
-exports.postQuestionnaire = (req, res, next) => {
-    const questionnaireId = req.body.questionnaireId
+exports.postQuestionnaire = (questionnaireId, questionnaireTitle, keywords, questions) => {
     const questionnaire = new Questionnaire({
         _id: questionnaireId,
-        questionnaireTitle: req.body.questionnaireTitle,
-        keywords: req.body.keywords,
-        questions: req.body.questions
+        questionnaireTitle: questionnaireTitle,
+        keywords: keywords,
+        questions: questions
     });
 
     // save on DB
-    questionnaire
-        .save()
-        .then(() => {
-            res.status(200).json({
-                success: true,
-                message: `Questionnaire[${questionnaireId}] uploaded.`,
-                // createdQuestionnaire: questionnaire
-            });
-        })
-        .catch(next);
+    return questionnaire.save();
 }
