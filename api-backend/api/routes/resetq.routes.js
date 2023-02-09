@@ -11,28 +11,20 @@ router.post("/:questionnaireId", async function (req, res, err) {
         if (seshas.length != 0) {
             console.log(session._id)
 
-            Session.updateOne({ "_id": session._id }, { "$pull": { "questionnaires": { "questionnaireId": req.params.questionnaireId } } }, (err,session) => {
+            Session.updateOne({ "_id": session._id }, { "$pull": { "questionnaires": { "questionnaireId": req.params.questionnaireId } } }, (err, session) => {
                 if (err) {
-                    res.status(500).json({
+                    return res.status(500).json({
                         status: "failed",
                         message: err
                     })
-                } else {
-                    res.status(200).json({
-                        status: "OK"
-                    })
                 }
             })
-
-
-
-            // Session.updateOne({ _id: session._id }, { $pull: { questionnaires: { questionnaireId: req.params.questionnaireId } } })
         }
 
     }
-    res.status(200).json({})
-    // Session.deleteOne({ questionnaireID: req.params.questionnaireId }).catch(err)
-
+    return res.status(200).json({
+        status: "OK"
+    })
 });
 
 
