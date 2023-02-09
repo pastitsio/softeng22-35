@@ -1,14 +1,22 @@
 const express = require("express");
 const router = express.Router();
+const Session = require('../models/session.model')
 
-router.post("/:questionnaireId", (req, res, next) => {
-    
 
-    res.status(200).json({
-        "status": "OK", "dbconnection": "Database connected and ready to use"
-    })
+router.post("/:questionnaireId", async function (req, res, err) {
 
-});// 200: success
+    Session.deleteOne({ questionnaireID: req.params.questionnaireId }).catch(err)
+    //     (err) => {
+    //     if (err) {
+    //         console.log(err)
+    //         res.status(500).json({
+    //             status: err
+    //         })
+    //     }
+    // }
+});
+// 200: success
+// "questionnaireID":"QQ000","session":"ATBP","answers":[{"qID":"P00","ans":"mail@mail.com"},{},{},{},{},{}]}
 
 
 

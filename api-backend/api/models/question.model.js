@@ -5,7 +5,7 @@ const questionSchema = mongoose.Schema({
     qText: String,
     required: String,
 
-    qType: { String, enum: ['profile', 'question'] },
+    qType:  {'type':String, 'enum': ['profile', 'question'] },
     options: [{
         optId: String,
         optText: String,

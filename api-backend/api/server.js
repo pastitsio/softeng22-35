@@ -22,5 +22,6 @@ https
 
 
 // DB
+mongoose.set('strictQuery', true);
 const uri = `mongodb+srv://admin:${process.env.MONGO_ATLAS_PW}@softeng22-35-mongo-clus.js8eu1b.mongodb.net/?retryWrites=true&w=majority`;
 mongoose.connect(uri);
