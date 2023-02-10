@@ -1,0 +1,12 @@
+import argparse
+import requests
+import json
+
+def resetall(ar):
+
+
+parser = argparse.ArgumentParser()
+parser.add_argument('', help='Reset all', required='TRUE')
+args = parser.parse_args()
+
+resetall(args)
