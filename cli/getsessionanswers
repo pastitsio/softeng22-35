@@ -1,0 +1,13 @@
+import argparse
+import requests
+import json
+
+def getsessionanswers(ar):
+
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--questionnaire_id', help='Give the questionnaire_id of the questionaire you would like to open ', required='TRUE')
+parser.add_argument('--question_id', help='Give the question_id of the question ypu would like to see', required='TRUE')
+args = parser.parse_args()
+
+getsessionanswers(args)
