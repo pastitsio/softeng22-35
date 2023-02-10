@@ -1,0 +1,11 @@
+import argparse
+import requests
+import json
+
+def healthcheck(ar):
+
+parser = argparse.ArgumentParser()
+parser.add_argument('', help='Chech the health of our API', required='TRUE')
+args = parser.parse_args()
+
+healthcheck(args)
