@@ -1,0 +1,12 @@
+import argparse
+import requests
+import json
+
+def resetq(ar):
+
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--questionnaire_id', help='Give the questionnaire_id of the questionnaire you would like to open', required='TRUE')
+args = parser.parse_args()
+
+resetq(args)
