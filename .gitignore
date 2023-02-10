@@ -1,9 +1,4 @@
 # Ignore everything
-/*
+
 **/node_modules/
 **/uploads/
-**/error_guidelines.md
-# EXCEPT
-!/api-backend
-!README.md
-!.gitignore

@@ -9,62 +9,74 @@ const questionnaireController = require('../controllers/questionnaire.controller
 const Question = require('../models/question.model');
 const questionController = require('../controllers/question.controller');
 
-router.post('/', multer({ filename: (req, file, cb) => { cb(null, file.originalname) }, dest: "./uploads", })
-    .single('file'), async (req, res, next) => {
+// router.post('/', multer({ filename: (req, file, cb) => { cb(null, file.originalname) }, dest: "./uploads", }).single('file'), async function (req, res) {
+router.post('/', multer({ filename: (req, file, cb) => { cb(null, file.originalname) }, dest: "./uploads", }).single('file'), async (req, res, next) => {
 
-        var error = new Error();
+    var error = new Error();
 
-        var rawData = fs.readFileSync('./uploads/' + req.file.filename);
-        var inputData = JSON.parse(rawData);
-        var quIdArray = [];
+    var rawData = fs.readFileSync('./uploads/' + req.file.filename);
+    var inputData = JSON.parse(rawData);
+    var quIdArray = [];
 
-        inputData.questions instanceof Array;
-        await Promise.all( // upload questions in parallel
-            inputData.questions.map(async (question) => {
-
+    inputData.questions instanceof Array;
+    await Promise.all( // upload questions in parallel
+        inputData.questions.map((question) => {
+            let quId, qText, required, qType, options = [];
+            
+            try {
                 // parse question input data
-                let quId, qText, required, qType;
-                try {
-                    quId = question._id;
-                    qText = question.qText;
-                    required = question.required;
-                    qType = question.type;
+                quId = question.qID;
+                qText = question.qtext;
+                required = (question.required.toLowerCase() === "true") ? true : false;
+                qType = question.type;
 
-                    var options = [];
-                    question.options instanceof Array;
-                    question.options.forEach(opt => {
-                        options.push({
-                            optId: opt.optID,
-                            optText: opt.opttxt,
-                            nextqId: opt.nextqID
-                        })
+                // parse options
+                question.options instanceof Array;
+                question.options.forEach(opt => {
+                    options.push({
+                        optId: opt.optID,
+                        optText: opt.opttxt,
+                        nextqId: opt.nextqID
                     })
-                } catch (err) { error.message = 'Error parsing JSON data on question level.'; throw error; }
+                })
+            } catch (err) {
+                error.message += err.message + '| Error parsing JSON data on question level. |';
+            }
 
-                // upload question
-                await questionController.postQuestion(quId, qText, required, qType, options)
-                    .then(() => { quIdArray.push(quId); })
-                    .catch(err => { error.message += `Question[${quId}] error uploading |`; });
-            }))
+            // upload question
+            questionController.postQuestion(quId, qText, required, qType, options);
+            // return each quId as a promise. 
+            return quId;
+        }))
+        .then(quIds => { quIdArray = quIds; }) // Promise.all() returns all promises in an array.
+        .catch(err => { error.message += err.message + `| Question #[${err.index}] error uploading. |`; }); // find where there was an error using err.index
 
-        // parse questionnaire input data
-        let QId, questionnaireTitle, keywords, questions;
-        try {
-            QId = inputData.questionnaireID;
-            questionnaireTitle = inputData.questionnaireTitle;
-            keywords = inputData.keywords;
-            questions = quIdArray;
-        } catch (err) { error.message = 'Error parsing JSON data on questionnaire level.'; throw error; }
-
-        questionnaireController.postQuestionnaire(QId, questionnaireTitle, keywords, questions)
-            .catch(next);
-
-        res.status(200).json({
-            success: true,
-            message: `Uploaded Questionnaire[${_id} with questions[${quIdArray}].`
-        });
+    // parse questionnaire input data
+    let QId, questionnaireTitle, keywords, questions;
+    try {
+        QId = inputData.questionnaireID;
+        questionnaireTitle = inputData.questionnaireTitle;
+        keywords = inputData.keywords;
+        questions = quIdArray;
+    } catch (err) {
+        error.message += err.message + '| Error parsing JSON data on questionnaire level. |';
+        throw error;
     }
-)
+
+    // upload questionnaire
+    questionnaireController.postQuestionnaire(QId, questionnaireTitle, keywords, questions)
+        .then(() => {
+            // All's Well That Ends Well
+            res.status(200).json({
+                success: true,
+                message: `Uploaded Questionnaire[${QId}] with questions[${questions}].`
+            });
+        })
+        .catch(err => {
+            error.message += err.message;
+            next(error);
+        });
+})
 
 
 module.exports = router;

@@ -34,7 +34,7 @@ app.use((req, res, next) => {
 })
 
 // Routes that handle requests
-app.use('/admin/', adminRoutes);
+app.use('/admin', adminRoutes);
 app.use('/question', questionRoutes);
 app.use('/questionnaire', questionnaireRoutes);
 app.use('/doanswer', doanswerRoutes);

@@ -32,14 +32,15 @@ exports.getQuestionnaireQuestion = async function (questionnaireId, questionId) 
 
 }
 
-exports.postQuestion = (_id, qText, required, type, options) => {
+exports.postQuestion = (qId, qText, required, type, options) => {
     const question = new Question({
-        _id: _id,
+        _id: qId,
         qText: qText,
         required: required,
         type: type,
         options: options,
     })
 
+    // upload on DB
     return question.save();
 }
