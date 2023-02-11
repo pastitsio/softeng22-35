@@ -1,5 +1,5 @@
 import React from "react";
-import { Navbar } from '../../components/navbar';
+import { Navbar, UploadQ } from '../../components';
 
 const Upload = () => {
     return (
@@ -7,7 +7,7 @@ const Upload = () => {
             <div className="gradient__bg ">
                 <Navbar />
             </div>
-            <p> Welcome to the upload page.</p>
+            <UploadQ/>
         </div>
     )
 };

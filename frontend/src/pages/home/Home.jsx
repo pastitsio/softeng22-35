@@ -1,6 +1,6 @@
 import React from 'react'
-import { Header } from '../../containers'
-import { Navbar } from '../../components/navbar'
+import {Navbar } from '../../components/'
+import {Header} from '../../containers/'
 
 import './Home.css'
 
