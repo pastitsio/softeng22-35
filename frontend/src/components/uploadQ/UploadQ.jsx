@@ -2,17 +2,20 @@ import React from "react";
 import { StylesManager, Model } from "survey-core";
 import { Survey } from "survey-react-ui";
 import { json } from "./json";
+import './uploadQ.css'
 StylesManager.applyTheme("modern");
 
 function UploadQ() {
+ 
+
   const survey = new Model(json);
   survey
     .onClearFiles
     .add(function (survey, options) {
-      // Code to remove files stored on your service
-      // SurveyJS Service doesn't allow to remove files
+      
       options.callback("success");
     });
+    
 
   survey
     .onUploadFiles
@@ -37,8 +40,12 @@ function UploadQ() {
       xhr.send(formData);
     });
 
-  
-  return (<Survey model={survey} />);
+return (
+<div className="upload-container">
+{/* <p className="upload-text">Choose a file to upload:</p> */}
+<input type="file" className="upload-input" />
+  <Survey model={survey} />
+  </div>
+);
 }
-
 export default UploadQ;

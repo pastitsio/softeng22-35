@@ -6,7 +6,9 @@ export const json = {
         "name": "files",
         "storeDataAsText": false,
         "allowMultiple": true,
-        "maxSize": 102400
+        "maxSize": 102400,
+        
+        
       }
     ]
   };
