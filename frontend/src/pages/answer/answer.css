@@ -1,0 +1,43 @@
+.intelliQ__answer_cards_container,
+.intelliQ__answer_filters_container {
+    display: flex;
+    flex-direction: row;
+    font-family: var(--font-family);
+    margin: 3rem 1rem;
+}
+
+.intelliQ__answer_cards_container-card {
+    display: flex;
+    margin: 0 .5rem;
+    width: 200px;
+}
+
+.intelliQ__answer_cards_container-card-title{
+    font-size: 18px;
+}
+.intelliQ__answer_cards_container-card-text {
+    font-size: 15px;
+}
+
+/* .intelliQ__answer_filters_container-buttons {
+  flex-direction: row;  
+} */
+
+.intelliQ__answer_filters_container-buttons_button{
+    display: inline-flex;
+    align-items: center;
+    color: #ffff;
+    height: 30px;    
+    margin: 0 .2rem;
+    text-decoration:underline;
+}
+.intelliQ__answer_filters_container-buttons_button:hover{
+    background: #73c1e0;
+}
+
+h2 {
+    font-family: var(--font-family);    
+    font-weight: 500;
+    color: #ffff;
+    margin: 2rem 0 0 1rem;
+}

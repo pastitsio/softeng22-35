@@ -3,7 +3,7 @@ const Questionnaire = require('../models/questionnaire.model');
 
 exports.getQuestion = async function (questionId) {
     try {
-        var question = await Question.findById(questionId).exec();
+        var question = await Question.findById(questionId).lean().exec();
     } catch (err) { throw err; }
     if (question === null) {
         throw new Error(`Question[${questionId}] does NOT exist.`);

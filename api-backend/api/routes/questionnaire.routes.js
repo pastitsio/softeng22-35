@@ -10,10 +10,19 @@ router.get("/:questionnaireId", async (req, res, next) => {
     const questionnaireId = req.params.questionnaireId;
 
     try {
-        const questionnaire = await questionnaireController.getQuestionnaire(questionnaireId);
+        let onlyIds = false;
+        const questionnaire = await questionnaireController.getQuestionnaire(questionnaireId, onlyIds);
         res.status(200).send(formatData(format, questionnaire));
     } catch (err) { next(err) };
 });
+
+router.get("/", async (req, res, next) => {
+    const format = req.query.format;
+    try {
+        const questionnaires = await questionnaireController.getAll();
+        res.status(200).send(formatData(format, questionnaires));
+    } catch (err) { next(err) };
+})
 
 // for testing
 router.post('/', (req, res, next) => {
