@@ -127,9 +127,20 @@
       ```json
       Type: GET,
       URL: http://localhost:4000}/getquestionanswers/:questionnaireID/:questionID,
-      Reply: {
-            "status": "OK"
-         }
+      Reply:{
+              "questionnaireId": "testQQ00",
+              "questionID": "testQ04",
+              "ret": [
+                  {
+                      "session": "12345",
+                      "ans": "Q04A1"
+                  },
+                  {
+                      "session": "6789",
+                      "ans": "Q04A2"
+                  }
+              ]
+            }
       ```
       
 
