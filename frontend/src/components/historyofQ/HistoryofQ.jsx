@@ -85,8 +85,8 @@ const History = () => {
       <table>
         <thead>
           <tr>
-            <th>Questionnaire Title</th>
             <th>Session ID</th>
+            <th>Questionnaire Id</th>
             <th>Results</th>
           </tr>
         </thead>
@@ -95,9 +95,10 @@ const History = () => {
             session.questionnaires.map(questionnaire => (
               <>
                 <tr key={session._id}></tr>
-                <td>{questionnaire._id}</td>
+                <td>{session._id}</td>
+                <td>{questionnaire.questionnaireId}</td>
                 <td>
-                  <Link to={`/results/${questionnaire._id}/${session._id}`}>Results</Link>
+                  <Link to={`/results/${questionnaire.questionnaireId}/${session._id}`}><u>Results</u></Link>
                 </td>
               </>
             ))
