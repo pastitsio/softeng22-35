@@ -1,0 +1,66 @@
+.intelliQ__home {
+    display: flex;
+    flex-direction: row;
+}
+
+.intelliQ__home-content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+
+    margin-right: 3rem;
+}
+
+.intelliQ__home-content h1 {
+    font-family: var(--font-family);
+    font-weight: 800;
+    font-size: 45px;
+    line-height: 75px;
+    letter-spacing: -0.04em;
+}
+
+.intelliQ__home-content p {
+    font-family: var(--font-family);
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 28px;
+    color: var(--color-text);
+
+    margin-top: 1.5rem;
+}
+
+
+.intelliQ__home-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+/*.intelliQ__home-image img {
+    width: 100%;
+    height: 100%;
+} */
+
+.intelliQ__home-image_logo {
+    size: 20vmin;
+    pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .intelliQ__home-image_logo {
+        animation: intelliQ__home-image_logo-spin infinite 20s linear;
+    }
+}
+
+@keyframes intelliQ__home-image_logo-spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}

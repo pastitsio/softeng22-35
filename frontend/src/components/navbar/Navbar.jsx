@@ -2,7 +2,7 @@ import React from "react";
 // import { RiMenu3Line, RiCloseLin } from 'react-icons/ri';
 import { Link } from "react-router-dom";
 
-import logo from '../../assets/logo.svg';
+import logo from '../../assets/logo_navbar.svg';
 import './navbar.css';
 
 const Navbar = () => {

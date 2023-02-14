@@ -28,7 +28,9 @@ function Filters({ qs }) {
 
   return (
     <>
-      <h2>Filter per keyword</h2>
+      <div className="intelliQ__answer_filters_header">
+        <h2>Filter per keyword</h2>
+      </div>
       <div className="intelliQ__answer_filters_container">
         <div className="intelliQ__answer_filters_container-buttons">
           <label key="all" className="btn btn-primary" >No filter
@@ -48,7 +50,7 @@ function Filters({ qs }) {
 }
 
 function Cards({ qs, isVisible }) {
-  
+
 
   var questionnaires = qs;
   questionnaires.forEach(questionnaire => {
@@ -61,7 +63,9 @@ function Cards({ qs, isVisible }) {
 
   return (
     <>
-      <h2>Questionnaires</h2>
+      <div className="intelliQ__answer_cards_header">
+        <h2>Questionnaires</h2>
+      </div>
       <div className="intelliQ__answer_cards_container">
         {questionnaires && questionnaires.map((questionnaire) => (
           <div id={questionnaire._id} className="intelliQ__answer_cards_container-card card" style={questionnaire.style} key={questionnaire._id}>

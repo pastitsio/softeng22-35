@@ -1,24 +1,24 @@
 import React from "react";
-import { useParams } from 'react-router-dom';
+// import { useParams } from 'react-router-dom';
 import { StylesManager, Model } from "survey-core";
-import { Survey } from "survey-react-ui";
+import { Survey as SurveyUI } from 'survey-react';
+// import * as SurveyCreator from "survey-creator";
 import "survey-core/defaultV2.css";
 
-import { json } from "./json"
 import test_input from './test_input/test.json';
 
 import './questionnaire.css'
 
-StylesManager.applyTheme("modern");
+StylesManager.applyTheme("bootstrap");
 
 function convertDbInputToSurvey(questionnaire) {
     /*
         In order to take advantage of surveyJs, we need to transform our stored data to 
-    
+        match surveyJs accepted input data.    
     */
     var questions = questionnaire.questions;
     var ret = {
-        "questionnaireTitle": questionnaire.questionnaireTitle,
+        "title": questionnaire.questionnaireTitle,
         "checkErrorsMode": "onValueChanged",
         "showQuestionNumbers": true,
         elements: []
@@ -33,6 +33,7 @@ function convertDbInputToSurvey(questionnaire) {
         ]
     }) // first question is for email.
 
+    //set questions
     questions.forEach(question => {
         var questionObj = {
             type: "radiogroup",
@@ -41,11 +42,10 @@ function convertDbInputToSurvey(questionnaire) {
             isRequired: question.required,
             colCount: 1,
             choices: question.options
-                .map(({ optText, ...rest }) => optText) // keep only text
+                .map(({ optText, optId, ...rest }) => ({value:optId, text:optText})) // show optText, result optId
         }
 
         // construct parametrized options
-
         var m, matches = [];
         const regex = /(?:(?:\[\*(\w+)\])+)/gm;
         while ((m = regex.exec(questionObj.title)) !== null) {
@@ -65,7 +65,7 @@ function convertDbInputToSurvey(questionnaire) {
                 .options
                 .find(o => o.optId === parametricOptionId).optText;
 
-            questionObj.title = questionObj.title.replace(/\[(\*\w+)\]/m, `${optTextToReplace}`);
+            questionObj.title = questionObj.title.replace(/\[(\*\w+)\]/m, `[${optTextToReplace}]`);
 
             let questionToReplace = ret.elements.findIndex(elem => elem.name === parametricQuestionId) + 1; // +1 because first question is email question, hardcoded.
             questionObj.title = questionObj.title.replace(/\[(\*\w+)\]/m, `[${questionToReplace}]`);
@@ -81,7 +81,7 @@ function convertDbInputToSurvey(questionnaire) {
 
 
 const Questionnaire = () => {
-    let params = useParams()
+    // let params = useParams()
     // const [questionnaires, setQuestionnaires] = useState([]);
 
     // useEffect(() => {
@@ -103,21 +103,15 @@ const Questionnaire = () => {
 
     var questionnaire = convertDbInputToSurvey(test_input);
     console.log(questionnaire);
-
-    // const arr = JSON.parse(json);
-    // arr.forEach( obj => renameKey( obj, '_id', 'id' ) );
-    // const updatedJson = JSON.stringify( arr );
+    
 
     const survey = new Model(questionnaire); // create new survey js questionnaire
+    survey.onComplete.add(() => {
+        console.log(survey.data)
+    });
     return (
         <div className="Questionnaire">
-            <div className="intelliQ__Questionnaire-title">
-                {questionnaire.questionnaireTitle}
-            </div>
-            <Survey model={survey} />
-            {/* <div className="intelliQ__Questionnaire-survey_container">
-                {questionnaire.questions}
-            </div> */}
+            <SurveyUI id="survey" model={survey} />
         </div>
     )
 }

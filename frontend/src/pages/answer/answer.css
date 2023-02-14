@@ -1,9 +1,24 @@
 .intelliQ__answer_cards_container,
 .intelliQ__answer_filters_container {
     display: flex;
+    justify-content: flex-start;
     flex-direction: row;
     font-family: var(--font-family);
-    margin: 3rem 1rem;
+    margin: 3rem 10rem;
+}
+
+.intelliQ__answer_filters_header,
+.intelliQ__answer_cards_header {
+    margin: 0rem 10rem;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+
+h2 {
+    font-family: var(--font-family);
+    font-weight: 500;
+    color: #ffff;
 }
 
 .intelliQ__answer_cards_container-card {
@@ -12,9 +27,15 @@
     width: 200px;
 }
 
-.intelliQ__answer_cards_container-card-title{
+.intelliQ__answer_cards_container-card-body {
+    background: 'var(--gradient-text)';
+    border-color: #ffff;
+}
+
+.intelliQ__answer_cards_container-card-title {
     font-size: 18px;
 }
+
 .intelliQ__answer_cards_container-card-text {
     font-size: 15px;
 }
@@ -23,21 +44,15 @@
   flex-direction: row;  
 } */
 
-.intelliQ__answer_filters_container-buttons_button{
+.intelliQ__answer_filters_container-buttons_button {
     display: inline-flex;
     align-items: center;
     color: #ffff;
-    height: 30px;    
+    height: 30px;
     margin: 0 .2rem;
-    text-decoration:underline;
-}
-.intelliQ__answer_filters_container-buttons_button:hover{
-    background: #73c1e0;
+    text-decoration: underline;
 }
 
-h2 {
-    font-family: var(--font-family);    
-    font-weight: 500;
-    color: #ffff;
-    margin: 2rem 0 0 1rem;
+.intelliQ__answer_filters_container-buttons_button:hover {
+    background: #73c1e0;
 }
