@@ -15,6 +15,7 @@ const Navbar = () => {
         <div className="intelliQ__navbar-links_container">
           <p><Link to="/">Home</Link></p>
           <p><Link to="/upload">Upload</Link></p>
+          <p><Link to="/history">History</Link></p>
           {/* <p><a href="#answer">Answer</a></p>
           <p><a href="#about">About</a></p> */}
         </div>

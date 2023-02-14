@@ -2,6 +2,17 @@ const questionController = require('../controllers/question.controller');
 
 const Session = require('../models/session.model');
 
+exports.getAllSessions = async (onlyIds=false) => {
+    var sessions;
+    for await (const ses of Session.find()) { // for every session
+        if (onlyIds === true) {
+            sessions.push(ses._id);
+        } else {
+            sessions.push(ses);
+        }
+    }
+    return sessions;
+}
 
 exports.getSessionAnswers = async (questionnaireId, sessionId) => {
     try { // fetch session
