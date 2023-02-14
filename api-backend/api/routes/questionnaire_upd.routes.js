@@ -17,15 +17,13 @@ router.post('/', multer({ filename: (req, file, cb) => { cb(null, file.originaln
     var rawData = fs.readFileSync('./uploads/' + req.file.filename);
     var inputData = JSON.parse(rawData);
     var quIdArray = [];
-
     inputData.questions instanceof Array;
     await Promise.all( // upload questions in parallel
         inputData.questions.map((question) => {
             let quId, qText, required, qType, options = [];
-            
             try {
                 // parse question input data
-                quId = question.qID;
+                quId = Object.values(question)[0];
                 qText = question.qtext;
                 required = (question.required.toLowerCase() === "true") ? true : false;
                 qType = question.type;
@@ -42,7 +40,6 @@ router.post('/', multer({ filename: (req, file, cb) => { cb(null, file.originaln
             } catch (err) {
                 error.message += err.message + '| Error parsing JSON data on question level. |';
             }
-
             // upload question
             questionController.postQuestion(quId, qText, required, qType, options);
             // return each quId as a promise. 
@@ -69,7 +66,7 @@ router.post('/', multer({ filename: (req, file, cb) => { cb(null, file.originaln
             // All's Well That Ends Well
             res.status(200).json({
                 success: true,
-                message: `Uploaded Questionnaire[${QId}] with questions[${questions}].`
+                message: `Uploaded Questionnaire [${QId}] with questions [${questions}].`
             });
         })
         .catch(err => {
