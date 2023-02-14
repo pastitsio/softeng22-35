@@ -62,16 +62,18 @@
 
 import './historyofQ.css'
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { Link } from 'react-router-dom';
 
 const History = () => {
   const [sessions, setSessions] = useState([]);
 
+  console.log(process.env.REACT_APP_API_SERVER_URL + '/session?onlyIds=false');
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(process.env.REACT_APP_API_SERVER_URL + '/session?onlyIds=false');
-      setSessions(response.data);
+      const json = await response.json();
+      console.log(json);
+      setSessions(json);
     };
     fetchData();
   }, []);

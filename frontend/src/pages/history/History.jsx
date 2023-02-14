@@ -7,7 +7,7 @@ const History = () => {
             <div className="gradient__bg ">
                 <Navbar />
             </div>
-            {/* <HistoryofQ/> */}
+            <HistoryofQ/>
         </div>
     )
 };

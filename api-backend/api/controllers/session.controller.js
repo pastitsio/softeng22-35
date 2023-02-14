@@ -3,7 +3,7 @@ const questionController = require('../controllers/question.controller');
 const Session = require('../models/session.model');
 
 exports.getAllSessions = async (onlyIds=false) => {
-    var sessions;
+    var sessions = [];
     for await (const ses of Session.find()) { // for every session
         if (onlyIds === true) {
             sessions.push(ses._id);

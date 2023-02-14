@@ -1,0 +1,136 @@
+{
+  "title": "My first research questionnaire",
+  "checkErrorsMode": "onValueChanged",
+  "showQuestionNumbers": true,
+  "elements": [
+    {
+      "name": "emailvalidator",
+      "type": "text",
+      "title": "Enter an e-mail address",
+      "isRequired": true,
+      "validators": [
+        {
+          "type": "email"
+        }
+      ]
+    },
+    {
+      "type": "radiogroup",
+      "name": "testP01",
+      "title": "Ποια είναι η ηλικία σας;",
+      "isRequired": true,
+      "colCount": 1,
+      "choices": [
+        "<30",
+        "30-50",
+        "50-70",
+        ">70"
+      ]
+    },
+    {
+      "type": "radiogroup",
+      "name": "testQ01",
+      "title": "Ποιο είναι το αγαπημένο σας χρώμα;",
+      "isRequired": true,
+      "colCount": 1,
+      "choices": [
+        "Πράσινο",
+        "Κόκκινο",
+        "Κίτρινο"
+      ]
+    },
+    {
+      "type": "radiogroup",
+      "name": "testQ02",
+      "title": "Ασχολείστε με το ποδόσφαιρο;",
+      "isRequired": true,
+      "colCount": 1,
+      "choices": [
+        "Ναι",
+        "Οχι"
+      ]
+    },
+    {
+      "type": "radiogroup",
+      "name": "testQ03",
+      "title": "Τι ομάδα είστε;",
+      "isRequired": true,
+      "colCount": 1,
+      "choices": [
+        "Παναθηναϊκός",
+        "Ολυμπιακός ",
+        "ΑΕΚ"
+      ]
+    },
+    {
+      "type": "radiogroup",
+      "name": "testQ04",
+      "title": "Έχετε ζήσει σε νησί;",
+      "isRequired": true,
+      "colCount": 1,
+      "choices": [
+        "Ναι",
+        "Οχι"
+      ]
+    },
+    {
+      "type": "radiogroup",
+      "name": "testQ05",
+      "title": "Με δεδομένο ότι απαντήσατε [Ναι] στην ερώτηση [6]: Ποια η σχέση σας με το θαλάσσιο σκι;",
+      "isRequired": true,
+      "colCount": 1,
+      "choices": [
+        "Καμία",
+        "Μικρή",
+        "Μεγάλη"
+      ],
+      "enableIf": "{testQ04}='Ναι'"
+    },
+    {
+      "type": "radiogroup",
+      "name": "testQ06",
+      "title": "Είστε χειμερινός κολυμβητής",
+      "isRequired": true,
+      "colCount": 1,
+      "choices": [
+        "Ναι",
+        "Οχι"
+      ]
+    },
+    {
+      "type": "radiogroup",
+      "name": "testQ07",
+      "title": "Κάνετε χειμερινό σκι;",
+      "isRequired": true,
+      "colCount": 1,
+      "choices": [
+        "Σπάνια - καθόλου",
+        "Περιστασιακά",
+        "Τακτικά"
+      ]
+    },
+    {
+      "type": "radiogroup",
+      "name": "testQ08",
+      "title": "Συμφωνείτε να αλλάζει η ώρα κάθε χρόνο;",
+      "isRequired": true,
+      "colCount": 1,
+      "choices": [
+        "Ναι",
+        "Οχι"
+      ]
+    },
+    {
+      "type": "radiogroup",
+      "name": "testQ09",
+      "title": "Με δεδομένο ότι απαντήσατε [Οχι] στην ερώτηση [10]: Προτιμάτε τη θερινή ή την χειμερινή ώρα;",
+      "isRequired": true,
+      "colCount": 1,
+      "choices": [
+        "Θερινή",
+        "Χειμερινή"
+      ],
+      "enableIf": "{testQ08}='Οχι'"
+    }
+  ]
+}
