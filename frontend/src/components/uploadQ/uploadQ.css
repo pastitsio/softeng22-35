@@ -1,0 +1,13 @@
+.UploadQ {
+  font-size: var(--font-family);
+  margin: 2rem 10rem;
+  color: #ffff;
+}
+.form-label {
+  font-weight: 800;
+}
+
+.upload_result {
+  margin: 4rem 0;
+  font-weight: 800;
+}

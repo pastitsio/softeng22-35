@@ -1,9 +1,10 @@
 import React from "react";
+import { UploadQ } from '../../components';
 
 const Upload = () => {
     return (
         <div className="Upload">
-            <p> Welcome to the upload page.</p>
+            <UploadQ />
         </div>
     )
 };
