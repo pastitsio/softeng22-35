@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { refreshResults, unparametrize } from './utils';
 import './questionnaire.css'
 
-function postToUrlAndGo(urls, navigate, data) {
+function postToUrlAndGo(urls) {
   let count = 0;
   const intervalId = setInterval(() => {
     if (count === urls.length - 1) {
