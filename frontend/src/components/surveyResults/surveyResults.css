@@ -1,0 +1,29 @@
+.intelliQ__SurveyResults-accordion{
+    /* display: flex; */
+    margin: 3rem;
+    font-size: 24px;
+    width: auto;
+    font-family: var(--font-family);
+}
+
+.intelliQ__SurveyResults-header {
+    font-family: var(--font-family);
+    display: flex;
+    justify-content: center;
+}
+
+.intelliQ__SurveyReuslts-accordion_answer {
+    font-size: 15px;
+}
+
+.intelliQ__SurveyReuslts-home_nav {
+    font-family: var(--font-family);
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+#item0 {
+    margin-top: 0;
+}

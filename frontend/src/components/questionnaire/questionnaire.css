@@ -1,0 +1,27 @@
+.Questionnaire {
+    font-family: var(--font-family);
+}
+
+.intelliQ__Questionnaire-title {
+    display: flex;
+    align-items: center;
+    margin: 1rem;
+    font-weight: 500;
+}
+
+.card {
+    margin: 1rem 10rem;
+}
+
+.card-title {
+    font-size: 15px;
+}
+
+.ansBtn {
+    margin: 0 3rem;
+}
+
+.submitButton {
+    display: flex;
+    justify-content: center;
+}
