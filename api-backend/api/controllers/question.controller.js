@@ -34,9 +34,9 @@ exports.getQuestionnaireQuestion = async function (questionnaireId, questionId) 
 
 }
 
-exports.postQuestion = (qId, qText, required, type, options) => {
+exports.postQuestion = (questionId, qText, required, type, options) => {
     const question = new Question({
-        _id: qId,
+        _id: questionId,
         qText: qText,
         required: required,
         type: type,

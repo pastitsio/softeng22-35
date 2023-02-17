@@ -9,7 +9,6 @@ const questionnaireController = require('../controllers/questionnaire.controller
 const Question = require('../models/question.model');
 const questionController = require('../controllers/question.controller');
 
-// router.post('/', multer({ filename: (req, file, cb) => { cb(null, file.originalname) }, dest: "./uploads", }).single('file'), async function (req, res) {
 router.post('/', multer({ filename: (req, file, cb) => { cb(null, file.originalname) }, dest: "./uploads", }).single('file'), async (req, res, next) => {
 
     var error = new Error();
@@ -52,9 +51,9 @@ router.post('/', multer({ filename: (req, file, cb) => { cb(null, file.originaln
         .catch(err => { error.message += err.message + `| Question #[${err.index}] error uploading. |`; }); // find where there was an error using err.index
 
     // parse questionnaire input data
-    let QId, questionnaireTitle, keywords, questions;
+    let questionnaireId, questionnaireTitle, keywords, questions;
     try {
-        QId = inputData.questionnaireID;
+        questionnaireId = inputData.questionnaireID;
         questionnaireTitle = inputData.questionnaireTitle;
         keywords = inputData.keywords;
         questions = quIdArray;
@@ -64,12 +63,12 @@ router.post('/', multer({ filename: (req, file, cb) => { cb(null, file.originaln
     }
 
     // upload questionnaire
-    questionnaireController.postQuestionnaire(QId, questionnaireTitle, keywords, questions)
+    questionnaireController.postQuestionnaire(questionnaireId, questionnaireTitle, keywords, questions)
         .then(() => {
             // All's Well That Ends Well
             res.status(200).json({
                 success: true,
-                message: `Uploaded Questionnaire[${QId}] with questions[${questions}].`
+                message: `Uploaded Questionnaire[${questionnaireId}] with questions[${questions}].`
             });
         })
         .catch(err => {
