@@ -40,6 +40,10 @@ exports.getQuestionAnswers = async (questionnaireId, questionId) => {
         }));
     }
 
+    if (ret.length === 0) {
+        throw new Error("No answers found.");
+    }
+
     return {
         questionnaireId: questionnaireId,
         questionID: questionId,
