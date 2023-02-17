@@ -28,27 +28,32 @@ exports.getSessionAnswers = async (questionnaireId, sessionId) => {
 
 exports.getQuestionAnswers = async (questionnaireId, questionId) => {
     var ret = [];
+
     for await (const session of Session.find()) { // for every session
         // find session containing questionnaire
-        var sQ = session.questionnaires.filter(q => q.questionnaireId === questionnaireId);
-    
-        // find answers containing questionId
-        var answers = sQ.answers.filter(ans => ans.qID === questionId);
-        answers.map(ans => ret.push({
-            session: session._id,
-            ans: ans.optID
-        }));
+        var sQ = session.questionnaires.find(q => (q.questionnaireId === questionnaireId));
+
+        if (sQ) {
+            // find answers containing questionId
+            if (sQ.answers) {
+                var answer = sQ.answers.find(ans => ans.qID === questionId);
+                ret.push({
+                    session: session._id,
+                    ans: answer.optID
+                });
+            }
+        }
     }
 
-    if (ret.length === 0) {
-        throw new Error("No answers found.");
+    if (ret.length !== 0) {
+        return {
+            questionnaireId: questionnaireId,
+            questionID: questionId,
+            ret
+        };
+    } else {
+        throw new Error(`No matching Questionnaire[${questionnaireId}] and Question[${questionId}] answered`);
     }
-
-    return {
-        questionnaireId: questionnaireId,
-        questionID: questionId,
-        ret
-    };
 }
 
 exports.postQuestinnaireQuestionSessionOption = async (req, res, next) => {
