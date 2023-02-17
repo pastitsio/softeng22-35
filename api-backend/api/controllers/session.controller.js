@@ -2,6 +2,17 @@ const questionController = require('../controllers/question.controller');
 
 const Session = require('../models/session.model');
 
+exports.getAllSessions = async (onlyIds = false) => {
+    var sessions = [];
+    for await (const ses of Session.find()) { // for every session
+        if (onlyIds === true) {
+            sessions.push(ses._id);
+        } else {
+            sessions.push(ses);
+        }
+    }
+    return sessions;
+}
 
 exports.getSessionAnswers = async (questionnaireId, sessionId) => {
     try { // fetch session
@@ -28,26 +39,35 @@ exports.getSessionAnswers = async (questionnaireId, sessionId) => {
 
 exports.getQuestionAnswers = async (questionnaireId, questionId) => {
     var ret = [];
+
     for await (const session of Session.find()) { // for every session
         // find session containing questionnaire
-        var sQ = session.questionnaires.filter(q => q.questionnaireId === questionnaireId);
-    
-        // find answers containing questionId
-        var answers = sQ.answers.filter(ans => ans.qID === questionId);
-        answers.map(ans => ret.push({
-            session: session._id,
-            ans: ans.optID
-        }));
+        var sQ = session.questionnaires.find(q => (q.questionnaireId === questionnaireId));
+
+        if (sQ) {
+            // find answers containing questionId
+            if (sQ.answers) {
+                var answer = sQ.answers.find(ans => ans.qID === questionId);
+                ret.push({
+                    session: session._id,
+                    ans: answer.optID
+                });
+            }
+        }
     }
 
-    return {
-        questionnaireId: questionnaireId,
-        questionID: questionId,
-        ret
-    };
+    if (ret.length !== 0) {
+        return {
+            questionnaireId: questionnaireId,
+            questionID: questionId,
+            ret
+        };
+    } else {
+        throw new Error(`No matching Questionnaire[${questionnaireId}] and Question[${questionId}] answered`);
+    }
 }
 
-exports.postQuestinnaireQuestionSessionOption = async (req, res, next) => {
+exports.postQuestionnaireQuestionSessionOption = async (req, res, next) => {
     const questionnaireId = req.params.questionnaireId;
     const questionId = req.params.questionId;
     const sessionId = req.params.sessionId;
@@ -97,7 +117,7 @@ exports.postQuestinnaireQuestionSessionOption = async (req, res, next) => {
 
             res.status(200).json({
                 success: true,
-                message: "Answer uploaded."
+                message: `Answer ${questionnaireId} ${questionId} ${sessionId} ${optionId} uploaded.`
             });
             // } catch (err) { throw new Error("Problem uploading answer.") };
         } else {

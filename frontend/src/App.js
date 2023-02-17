@@ -3,7 +3,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import { Home, Upload, Answer } from './pages';
-import { Navbar, Questionnaire } from './components';
+import { Navbar, Questionnaire, SurveyResults } from './components';
 
 import './App.css';
 
@@ -18,8 +18,8 @@ const App = () => {
         <Route index element={<Home />} />
         <Route path='upload' element={<Upload />} />
         <Route path='answer' element={<Answer />} />
-        <Route path='answer/:id' element={<Questionnaire />} /> {/*A nested route!*/}
-        {/* </Route> */}
+        <Route path='answer/:questionnaireId' element={<Questionnaire />} /> {/*A nested route!*/}
+        <Route path='surveyResults' element={<SurveyResults />} />
       </Routes>
     </BrowserRouter >
 

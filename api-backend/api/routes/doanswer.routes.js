@@ -4,6 +4,6 @@ const router = express.Router();
 const sessionController = require('../controllers/session.controller');
 
 router.post('/:questionnaireId/:questionId/:sessionId/:optionId', 
-            sessionController.postQuestinnaireQuestionSessionOption);
+            sessionController.postQuestionnaireQuestionSessionOption);
 
 module.exports = router;

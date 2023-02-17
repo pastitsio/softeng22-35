@@ -1,119 +1,92 @@
-import React from "react";
-// import { useParams } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from 'react-router-dom';
 import { StylesManager, Model } from "survey-core";
 import { Survey as SurveyUI } from 'survey-react';
 // import * as SurveyCreator from "survey-creator";
 import "survey-core/defaultV2.css";
 
-import test_input from './test_input/test.json';
+import { convertDbInputToSurveyJs } from './utils';
 
 import './questionnaire.css'
 
 StylesManager.applyTheme("bootstrap");
 
-function convertDbInputToSurvey(questionnaire) {
-    /*
-        In order to take advantage of surveyJs, we need to transform our stored data to 
-        match surveyJs accepted input data.    
-    */
-    var questions = questionnaire.questions;
-    var ret = {
-        "title": questionnaire.questionnaireTitle,
-        "checkErrorsMode": "onValueChanged",
-        "showQuestionNumbers": true,
-        elements: []
-    }
-    ret.elements.push({
-        "name": "emailvalidator",
-        "type": "text",
-        "title": "Enter an e-mail address",
-        "isRequired": true,
-        "validators": [
-            { "type": "email" }
-        ]
-    }) // first question is for email.
-
-    //set questions
-    questions.forEach(question => {
-        var questionObj = {
-            type: "radiogroup",
-            name: question._id,
-            title: question.qText,
-            isRequired: question.required,
-            colCount: 1,
-            choices: question.options
-                .map(({ optText, optId, ...rest }) => ({value:optId, text:optText})) // show optText, result optId
-        }
-
-        // construct parametrized options
-        var m, matches = [];
-        const regex = /(?:(?:\[\*(\w+)\])+)/gm;
-        while ((m = regex.exec(questionObj.title)) !== null) {
-            // This is necessary to avoid infinite loops with zero-width matches
-            if (m.index === regex.lastIndex) {
-                regex.lastIndex++;
-            }
-            matches.push(m.map((match, groupIndex) => match).at(1));
-        }
-
-        if (matches.length !== 0) {
-            let parametricQuestionId, parametricOptionId;
-            [parametricOptionId, parametricQuestionId] = matches;
-
-            let optTextToReplace = questions
-                .find(q => q._id === parametricQuestionId)
-                .options
-                .find(o => o.optId === parametricOptionId).optText;
-
-            questionObj.title = questionObj.title.replace(/\[(\*\w+)\]/m, `[${optTextToReplace}]`);
-
-            let questionToReplace = ret.elements.findIndex(elem => elem.name === parametricQuestionId) + 1; // +1 because first question is email question, hardcoded.
-            questionObj.title = questionObj.title.replace(/\[(\*\w+)\]/m, `[${questionToReplace}]`);
-
-            questionObj.enableIf = `{${parametricQuestionId}}='${optTextToReplace}'`;
-        }
-
-        ret.elements.push(questionObj);
-    })
-
-    return ret;
-}
-
 
 const Questionnaire = () => {
-    // let params = useParams()
-    // const [questionnaires, setQuestionnaires] = useState([]);
+  const navigate = useNavigate();
+  let params = useParams();
+  let questionnaireId = params.questionnaireId;
+  const [questionnaire, setQuestionnaire] = useState([]);
 
-    // useEffect(() => {
-    //     // declare the async data fetching function
-    //     const fetchData = async () => {
-    //         // get the data from the api
-    //         // const response = await fetch(process.env.REACT_APP_SERVER_URL + '/questionnaire');
-    //         const response = await fetch(test_input);
-    //         const json = await response.json();
-    //         // set state with the result
-    //         setQuestionnaires(json);
-    //     }
+  useEffect(() => {
+    // declare the async data fetching function
+    const fetchData = async () => {
+      // get the data from the api
+      let url = `${process.env.REACT_APP_API_SERVER_URL}/questionnaire/${questionnaireId}`;
+      console.log(`GET ${url}`);
+      const response = await fetch(url);
+      // const response = await fetch(test_input);
+      const json = await response.json();
+      // set state with the result
+      setQuestionnaire(json);
+    }
 
-    //     // call the function
-    //     fetchData()
-    //         // make sure to catch any error
-    //         .catch(console.error);;
-    // }, []);
+    // call the function
+    fetchData()
+      // make sure to catch any error
+      .catch(console.error);;
+  }, [questionnaireId]);
 
-    var questionnaire = convertDbInputToSurvey(test_input);
-    console.log(questionnaire);
-    
 
-    const survey = new Model(questionnaire); // create new survey js questionnaire
-    survey.onComplete.add(() => {
-        console.log(survey.data)
-    });
+  if (questionnaire.length !== 0) {
+    var surveyQuestionnaire = {
+      title: questionnaire.questionnaireTitle,
+      checkErrorsMode: "onValueChanged",
+      showQuestionNumbers: true,
+    }
+    surveyQuestionnaire.elements = convertDbInputToSurveyJs(questionnaire.questions);
+
+    // console.log(surveyQuestionnaire.elements);
+    var survey = new Model(surveyQuestionnaire); // create new survey js questionnaire
+    survey.onComplete.add(async () => {
+      let data = survey.getPlainData();
+      console.log(data);
+      let sessionId = Math.floor(Math.random() * 10000);
+      var previewResults = [];
+
+      for (let i = 0; i < data.slice(1).length; i++) {
+        const ans = data.slice(1)[i];
+
+        let questionId = ans.name, qText = ans.title, optionId = ans.value, optionText = ans.displayValue;
+        if (optionId === undefined) {
+          continue; // empty anwers due to not enabled.
+        }
+
+        previewResults.push({
+          question: qText,
+          answer: optionText
+        });
+
+        let url = `${process.env.REACT_APP_API_SERVER_URL}/doanswer/${questionnaireId}/${questionId}/${sessionId}/${optionId}`;
+        console.log(`POST ${url}`);
+
+        fetch(url, { method: 'POST' })
+          .then(async response => {
+            const json = await response.json();
+            console.log(json);
+          })
+          .catch(console.err)
+      }
+      
+      navigate('/surveyResults', { state: { data: previewResults } });
+
+    })
     return (
-        <div className="Questionnaire">
-            <SurveyUI id="survey" model={survey} />
-        </div>
+      <div className="Questionnaire">
+        <SurveyUI id="survey" model={survey} />
+      </div>
     )
+  } else { return null; }
 }
 
 
