@@ -17,7 +17,6 @@ exports.getQuestionnaireQuestion = async function (questionnaireId, questionId) 
     try { // get questionnaire
         var questionnaire = await questionnaireController.getQuestionnaire(questionnaireId);
     } catch (err) { throw err; }
-    console.log('questionnaire.questions :>> ', questionnaire.questions);
 
     questionnaire.questions instanceof Array;
     // var q = questionnaire.questions.find(q => q._id == questionId); // check if q Id
