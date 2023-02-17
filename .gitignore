@@ -1,1 +1,4 @@
-.gitignore
+# Ignore everything
+
+**/node_modules/
+**/uploads/
