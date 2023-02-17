@@ -19,6 +19,7 @@ h2 {
     font-family: var(--font-family);
     font-weight: 500;
     color: #ffff;
+    margin-top: 2rem;
 }
 
 .intelliQ__answer_cards_container-card {

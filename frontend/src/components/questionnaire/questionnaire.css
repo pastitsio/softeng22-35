@@ -1,13 +1,27 @@
-#survey {
-    --background-dim: var(--gradient-text);
-    /* --background: var(--gradient-bar); */
-}
-.intelliQ__Questionnaire-title {
-    display:  flex;
-    justify-content: center;
+.Questionnaire {
     font-family: var(--font-family);
-    font-size: 30px;
-    font-weight: 800;
-    margin: .5rem 25rem 0 25rem;
-    border-radius: 5px;
+}
+
+.intelliQ__Questionnaire-title {
+    display: flex;
+    align-items: center;
+    margin: 1rem;
+    font-weight: 500;
+}
+
+.card {
+    margin: 1rem 10rem;
+}
+
+.card-title {
+    font-size: 15px;
+}
+
+.ansBtn {
+    margin: 0 3rem;
+}
+
+.submitButton {
+    display: flex;
+    justify-content: center;
 }
