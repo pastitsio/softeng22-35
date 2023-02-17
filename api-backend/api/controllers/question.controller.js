@@ -19,8 +19,7 @@ exports.getQuestionnaireQuestion = async function (questionnaireId, questionId) 
     } catch (err) { throw err; }
 
     questionnaire.questions instanceof Array;
-    // var q = questionnaire.questions.find(q => q._id == questionId); // check if q Id
-    if (questionnaire.questions.find(question => question._id === questionId) === undefined) {
+    if (questionnaire.questions.includes(questionId) === false) {
         throw new Error(`Question[${questionId}] not in Questionnaire[${questionnaireId}]`);
     }
 
