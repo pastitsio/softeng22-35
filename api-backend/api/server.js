@@ -1,5 +1,5 @@
 const colors = require('colors/safe');
-const https = require('https');
+const http = require('http');
 const fs = require('fs');
 const mongoose = require('mongoose');
 
@@ -7,18 +7,11 @@ const app = require('./app');
 
 // fancy log
 colors.enable();
-const log = (x) => {console.log(colors.cyan.underline(x));}
+const log = (x) => { console.log(colors.cyan.underline(x)); }
 
 // app server
 const server_port = process.env.PORT || 4000;
-https
-    .createServer(
-        {
-            key: fs.readFileSync('auth/key.pem'),
-            cert: fs.readFileSync('auth/cert.pem'),
-        },
-        app
-    ).listen(server_port, () => { log(`Running https on port: {${server_port}}.`) });
+http.createServer(app).listen(server_port, () => { log(`Running https on port: {${server_port}}.`) });
 
 
 // DB

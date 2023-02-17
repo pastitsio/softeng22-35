@@ -2,6 +2,18 @@ const questionController = require('../controllers/question.controller');
 
 const Session = require('../models/session.model');
 
+exports.getAllSessions = async (onlyIds = false) => {
+    var sessions = [];
+    for await (const ses of Session.find()) { // for every session
+        if (onlyIds === true) {
+            sessions.push(ses._id);
+        } else {
+            sessions.push(ses);
+        }
+    }
+    return sessions;
+}
+
 
 exports.getSessionAnswers = async (questionnaireId, sessionId) => {
     try { // fetch session
@@ -106,7 +118,7 @@ exports.postQuestinnaireQuestionSessionOption = async (req, res, next) => {
 
             res.status(200).json({
                 success: true,
-                message: "Answer uploaded."
+                message: `Answer ${questionnaireId} ${questionId} ${sessionId} ${optionId} uploaded.`
             });
             // } catch (err) { throw new Error("Problem uploading answer.") };
         } else {
