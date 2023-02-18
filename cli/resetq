@@ -4,7 +4,7 @@ import json
 
 def resetq(ar):
     url = 'http://localhost:4000/admin/resetq' + '/' + ar.questionnaire_id  
-    res = requests.get(url, verify=False)
+    res = requests.post(url, verify=False)
     print(res.status_code)
     print(res.json())
     return True
