@@ -1,6 +1,4 @@
 const Question = require('../models/question.model');
-const Questionnaire = require('../models/questionnaire.model');
-
 const questionnaireController = require('../controllers/questionnaire.controller');
 
 exports.getQuestion = async function (questionId) {

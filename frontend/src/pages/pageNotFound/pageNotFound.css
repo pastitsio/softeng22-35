@@ -1,0 +1,7 @@
+.home_nav {
+    font-family: var(--font-family);
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}

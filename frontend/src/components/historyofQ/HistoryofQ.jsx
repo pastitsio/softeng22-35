@@ -1,52 +1,56 @@
 import './historyofQ.css'
 import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
-import {json} from  './testjson'
 
 const History = () => {
 
-   const [sessions, setSessions] = useState([]);
+  const [sessions, setSessions] = useState([]);
 
-  console.log(process.env.REACT_APP_API_SERVER_URL + '/session?onlyIds=false');
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(process.env.REACT_APP_API_SERVER_URL + '/session?onlyIds=false');
+      let url = `${process.env.REACT_APP_API_SERVER_URL}/session?onlyIds=false`;
+      console.log(`GET  ${url}`);
+      const response = await fetch(url);
       const json = await response.json();
-      console.log(json);
       setSessions(json);
     };
     fetchData();
   }, []);
 
-
-  return (
-    <div>
-      <h2>History</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Session ID</th>
-            <th>Questionnaire Id</th>
-            <th>Results</th>
-          </tr>
-        </thead>
-        <tbody>
-          {sessions.map(session => (
-            session.questionnaires.map(questionnaire => (
-              <>
-                <tr key={session._id}></tr>
-                <td>{session._id}</td>
-                <td>{questionnaire.questionnaireId}</td>
-                <td>
-                  <Link to={`/results/${questionnaire.questionnaireId}/${session._id}`}><u>Results</u></Link>
-                </td>
-              </>
-            ))
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
+  if (sessions) {
+    return (
+      <>
+        <h2>History</h2>
+        <div className="history_table">
+          <table className="table-light">
+            <thead>
+              <tr>
+                <th>Session ID</th>
+                <th>Questionnaire Id</th>
+                <th>Results</th>
+              </tr>
+            </thead>
+            <tbody>
+              {sessions.map(session => (
+                session.questionnaires.map(questionnaire => (
+                  <>
+                    <tr key={session._id}></tr>
+                    <td>{session._id}</td>
+                    <td>{questionnaire.questionnaireId}</td>
+                    <td>
+                      <button className='btn btn-primary'><Link to={`/sessionAnswers/${questionnaire.questionnaireId}/${session._id}`}>Results</Link></button>
+                    </td>
+                  </>
+                ))
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </>
+    );
+  } else {
+    return <h2>No sessions found!</h2>
+  }
 };
 
 export default History;
