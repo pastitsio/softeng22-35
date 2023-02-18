@@ -18,7 +18,7 @@ const UploadQ = () => {
     }
     const formData = new FormData();
     formData.append("file", file)
-    // 👇 Uploading the file using the fetch API to the server
+    //  Uploading the file using the fetch API to the server
     let url = `${process.env.REACT_APP_API_SERVER_URL}/admin/questionnaire_upd`;
     console.log(`POST ${url}`);
 
@@ -40,8 +40,8 @@ const UploadQ = () => {
   return (
     <div className="UploadQ">
       <label className="form-label">Upload Questionnaire</label>
-        <div class="mb-3">
-          <input class="form-control" type="file" id="formFile" onChange={handleFileChange}/>
+        <div className="mb-3">
+          <input className="form-control" type="file" id="formFile" onChange={handleFileChange}/>
         </div>
         <button className="btn btn-primary" onClick={handleUploadClick}>Upload</button>
       <div className="upload_result">{uploadResult}</div>

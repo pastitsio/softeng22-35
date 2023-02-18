@@ -1,21 +1,43 @@
-table {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: #ffff;
-  }
-  
-  th,
-  td {
-    border: 1px solid black;
-    padding: 8px;
-    text-align: left;
-  }
-  
-  th {
-    background-color: lightgray;
-  }
-  
-.history_table {
-  margin: 0 5rem;
+.main_component {
+  display: flex;
   font-family: var(--font-family);
+  margin-left: 2rem;
+}
+
+.main_component .header {
+  display: flex;
+}
+
+h2, h3 {
+  color: #ffff;
+}
+
+.section {
+  margin: 0 .5rem;
+}
+
+.sessions_section {
+  width: 25%;
+}
+
+.pane {
+  border-radius: 10px;
+}
+
+.questionnaires_section {
+  width: 25%;
+}
+
+.answers_section {
+  width: 50%;
+}
+
+.session_box {
+  display: flex;
+  /* margin: 1rem 0; */
+  padding-left: 10%;
+}
+
+.session_box .btn {
+  border-radius: 50px;
 }
