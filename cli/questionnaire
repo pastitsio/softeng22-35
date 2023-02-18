@@ -1,0 +1,23 @@
+import argparse
+import requests
+import json
+import csv
+
+def questionnaire(ar):
+    url = 'http://localhost:4000/questionnaire' + '/' + ar.questionnaire_id 
+    if (ar.format == 'csv'):
+        url = url + '?format=csv'
+    res = requests.get(url, verify=False)
+    print(res.status_code)
+    if (ar.format == 'json' and res.status_code == 200):
+        print(json.dumps(res.json(), indent=4, sort_keys=False))
+    else:
+        print(res.text)
+    return True
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--questionnaire_id', help='Give the questionnaire_id of the questionnaire you would like to open', required='TRUE')
+parser.add_argument('--format', choices=['csv','json'], help='Choose format (json or csv)', required='TRUE')
+args = parser.parse_args()
+
+questionnaire(args)

@@ -1,0 +1,19 @@
+import argparse
+import requests
+import json
+
+def questionnaire_upd(ar):
+    url = 'http://localhost:4000/admin/questionnaire_upd' 
+    up = {'file':(ar.source ,open(ar.source, 'rb'), "multipart/form-data")}
+    res = requests.post(url, files=up,verify=False)
+    print(res.status_code)
+    print(res.text)
+    return True
+
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--source', help='Give the source of the questionnaire in order to have an update', required='TRUE')
+args = parser.parse_args()
+
+
+questionnaire_upd(args)

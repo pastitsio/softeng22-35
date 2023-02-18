@@ -1,0 +1,15 @@
+import argparse
+import requests
+import json
+
+def resetall(ar):
+   res = requests.post('http://localhost:4000/admin/resetall',  verify=False)
+   print(res.status_code)
+   print(res.json())
+   return True
+
+
+parser = argparse.ArgumentParser()
+args = parser.parse_args()
+
+resetall(args)

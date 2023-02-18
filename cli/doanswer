@@ -1,0 +1,19 @@
+import argparse
+import requests
+import json
+
+def doanswer(ar):
+    url = 'http://localhost:4000/doanswer/' + ar.questionnaire_id + '/' + ar.question_id + '/' + ar.session_id + '/' + ar.option_id 
+    res = requests.post(url, verify=False)
+    print(res.text)
+    return True
+
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--questionnaire_id', help='Give the questionnaire_id of the questionaire you would like to open ', required='TRUE')
+parser.add_argument('--question_id', help='Give the question_id of the question ypu would like to see', required='TRUE')
+parser.add_argument('--session_id', help='Give the session_id of the session you would like to choose', required='TRUE')
+parser.add_argument('--option_id', help='Give the option_id of the option you would like to choose', required='TRUE')
+args = parser.parse_args()
+
+doanswer(args)
