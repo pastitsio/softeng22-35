@@ -108,9 +108,7 @@ const Questionnaire = () => {
                     {q.options.map(opt => (
                       <div key={opt.optId} className="form-check" id={`form-check${opt.optId}`}>
                         <input className="form-check-input" type="radio" name={`flexRadio${q._id}`} next={opt.nextqId} id={opt.optId} onClick={clickValue => setIsVisible(refreshResults(q._id, clickValue, isVisible))} />
-                        <label className="form-check-label" >
-                          {opt.optText}
-                        </label>
+                        <label className="form-check-label" >{opt.optText}</label>
                       </div>
                     ))
                     }

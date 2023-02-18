@@ -8,9 +8,9 @@ const questionnaireController = require('../controllers/questionnaire.controller
 router.get("/:questionnaireId", async (req, res, next) => {
     const format = req.query.format;
     const questionnaireId = req.params.questionnaireId;
+    const onlyIds = req.query.onlyIds === undefined ? false: true;
 
     try {
-        let onlyIds = false;
         const questionnaire = await questionnaireController.getQuestionnaire(questionnaireId, onlyIds);
         res.status(200).send(formatData(format, questionnaire));
     } catch (err) { next(err) };
