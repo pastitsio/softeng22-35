@@ -10,6 +10,7 @@ const questionnaireRoutes = require('./routes/questionnaire.routes');
 const doanswerRoutes = require('./routes/doanswer.routes');
 const getSessionAnswersRoutes = require('./routes/getsessionanswers.routes');
 const getQuestionAnswersRoutes = require('./routes/getquestionanswers.routes');
+const sessionRoutes = require('./routes/sessions.routes');
 
 // Logger
 app.use(morgan('dev'));
@@ -40,6 +41,7 @@ app.use('/questionnaire', questionnaireRoutes);
 app.use('/doanswer', doanswerRoutes);
 app.use('/getsessionanswers', getSessionAnswersRoutes);
 app.use('/getquestionanswers', getQuestionAnswersRoutes);
+app.use('/session', sessionRoutes);
 
 // If execution gets here, req was not handled by routes above,
 // so there's an error.
