@@ -1,5 +1,5 @@
 const Question = require('../models/question.model');
-const questionnaireController = require('../controllers/questionnaire.controller');
+const questionnaireController = require('./questionnaire.controller');
 
 exports.getQuestion = async function (questionId) {
     try {

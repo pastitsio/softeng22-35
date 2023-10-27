@@ -1,6 +1,6 @@
 const Questionnaire = require('../models/questionnaire.model');
 const Question = require('../models/question.model');
-const questionController = require('../controllers/question.controller');
+const questionController = require('./question.controller');
 
 exports.getAll = async () => {
     var ret = [];

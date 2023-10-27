@@ -5,21 +5,20 @@ import './questionnaire.css'
 
 function postToUrlAndGo(urls) {
   let count = 0;
-  const intervalId = setInterval(() => {
+  const intervalId = setInterval(async () => {
     if (count === urls.length - 1) {
       clearInterval(intervalId);
     }
     let url = urls[count];
     console.log(`POST ${url}`);
-    fetch(url, { method: 'POST' })
-      .then(response => {
-        return response.json();
-      })
-      .then(json => {
-        console.log(json);
-      })
-      .catch(console.err)
-    count++;
+    try {
+      let response = await fetch(url, { method: 'POST' })
+      let json = await response.json();
+      console.log(json);
+      count++;
+    } catch (err) {
+      console.err(err)
+    }
 
   }, 1500);
 }
@@ -57,8 +56,7 @@ function handleSubmit(event, questionnaireId, questions, navigate) {
 
 const Questionnaire = () => {
   const navigate = useNavigate();
-  let params = useParams();
-  let questionnaireId = params.questionnaireId;
+  let questionnaireId = useParams().questionnaireId;
   const [questionnaire, setQuestionnaire] = useState([]);
   const [_questions, setQuestions] = useState([]);
   const [isVisible, setIsVisible] = useState([]);
@@ -85,11 +83,11 @@ const Questionnaire = () => {
 
   // init
   questions.forEach(question => {
-    if (isVisible.includes(question._id)) {
-      question.style = { display: "" };
-    } else {
-      question.style = { display: "none" };
-    }
+    question.style = {
+      display: isVisible.includes(question._id)
+        ? ""
+        : "none"
+    };
   })
 
   return (
@@ -97,7 +95,7 @@ const Questionnaire = () => {
       <div className="intelliQ__Questionnaire-title">
         <h2> {questionnaire.questionnaireTitle} </h2>
       </div>
-      <form onSubmit={event => handleSubmit(event, questionnaireId, questions, navigate)}>
+      <form onSubmit={e => handleSubmit(e, questionnaireId, questions, navigate)}>
         <div className="form-group">
           {
             questions.map((q) => (

@@ -1,4 +1,4 @@
-const questionController = require('./question.controller');
+const questionController = require('../controllers/question.controller');
 
 const Session = require('../models/session.model');
 

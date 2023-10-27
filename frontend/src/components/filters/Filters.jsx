@@ -5,7 +5,10 @@ function refreshResults(qs, val) {
   var clickedItem = val.target.value;
   var visibleCards;
   if (clickedItem !== "*") {
-    visibleCards = qs.filter(q => q.keywords.includes(clickedItem)).map(q => q._id);
+    visibleCards = qs.filter(q =>
+      q.keywords
+        .includes(clickedItem))
+        .map(q => q._id);
   } else {
     visibleCards = qs.map(q => q._id);
   }
@@ -15,21 +18,21 @@ function refreshResults(qs, val) {
 const Filters = ({ qs }) => {
 
   const [isVisible, setIsVisible] = useState([]);
-  
+
   useEffect(() => {
-    const setup = () =>{
+    const setup = () => {
       let qIds = qs.map(q => q._id);
       setIsVisible(qIds)
     }
 
     setup();
-  
+
   }, [qs])
-  
- 
+
+
   var keywords = new Set();
   qs.forEach(question => question.keywords.forEach(keywords.add, keywords));
-  
+
   return (
     <>
       <div className="intelliQ__answer_filters_header">
@@ -55,11 +58,11 @@ const Filters = ({ qs }) => {
 
 const Cards = ({ qs, isVisible }) => {
   qs.forEach(questionnaire => {
-    if (isVisible.includes(questionnaire._id)) {
-      questionnaire.style = { display: "table-cell" };
-    } else {
-      questionnaire.style = { display: "none" };
-    }
+    questionnaire.style = {
+      display: isVisible.includes(questionnaire._id)
+        ? "table-cell"
+        : "none"
+    };
   })
 
   return (
