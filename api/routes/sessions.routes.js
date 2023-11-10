@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const formatData = require('../helpers/helpers').formatData;
+const formatData = require('../utilities').formatData;
 
 const sessionController = require('../controllers/session.controller');
 

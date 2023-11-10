@@ -1,15 +1,10 @@
 const Questionnaire = require('../models/questionnaire.model');
-const Question = require('../models/question.model');
 const questionController = require('./question.controller');
 
 exports.getAll = async () => {
-    var ret = [];
     try {
-        for await (const questionnaire of Questionnaire.find()) {
-            ret.push(questionnaire);
-        }
+        return await Questionnaire.find().lean();
     } catch (err) { throw err; }
-    return ret;
 }
 
 exports.getQuestionnaire = async (questionnaireId, onlyIds = true) => {
@@ -21,38 +16,35 @@ exports.getQuestionnaire = async (questionnaireId, onlyIds = true) => {
         throw new Error(`Questionnaire[${questionnaireId}] does NOT exist.`);
     }
 
-    var questions;
+    var _questions = [];
     if (onlyIds === false) {
         // replace ids with actual questions
         try {
-            questions = await Promise
-                .all(questionnaire.questions.map(questionController.getQuestion)); // fetch questions
+            _questions = await Promise
+                .all(questionnaire['questions']
+                    .map(questionController.getQuestion)); // fetch questions
         } catch (err) { throw err; }
 
-        questions = questions
-            .filter(n => n)
+        // questions = questions
+        //     .filter(n => n)
         // .map(({ options, ...rest }) => rest) // remove options field from object
-    } else {
-        questions = questionnaire.questions;
     }
 
-    questions instanceof Array;
     return {
         questionnaireId: questionnaireId,
         questionnaireTitle: questionnaire.questionnaireTitle,
         keywords: questionnaire.keywords,
-        questions: questions
+        questions: onlyIds ? questionnaire.questions : _questions
     };
 }
 
-exports.postQuestionnaire = (questionnaireId, questionnaireTitle, keywords, questions) => {
-    const questionnaire = new Questionnaire({
-        _id: questionnaireId,
-        questionnaireTitle: questionnaireTitle,
-        keywords: keywords,
-        questions: questions
-    });
-
-    // save on DB
-    return questionnaire.save();
+exports.postQuestionnaire = (_questionnaire) => {
+    const questionnaire = new Questionnaire({ ..._questionnaire });
+    return questionnaire.save();// save on DB
 }
+
+// module.exports = {
+//     getAll,
+//     getQuestionnaire,
+//     postQuestionnaire
+// }

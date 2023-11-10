@@ -2,14 +2,14 @@ const mongoose = require('mongoose');
 
 const questionSchema = mongoose.Schema({
     _id: String,
-    qText: String,
+    questionText: String,
     required: Boolean,
 
-    qType:  {'type':String, 'enum': ['profile', 'question'] },
+    questionType:  {'type':String, 'enum': ['profile', 'question'] },
     options: [{
-        optId: String,
-        optText: String,
-        nextqId: String
+        _id: String,
+        optionText: String,
+        nextQuestionId: String
     }],
 
 

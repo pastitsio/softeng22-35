@@ -1,9 +1,9 @@
 const Question = require('../models/question.model');
 const questionnaireController = require('./questionnaire.controller');
 
-exports.getQuestion = async function (questionId) {
+const getQuestion = async function (questionId) {
     try {
-        var question = await Question.findById(questionId).exec();
+        var question = await Question.findById(questionId).lean();
     } catch (err) { throw err; }
     if (question === null) {
         throw new Error(`Question[${questionId}] does NOT exist.`);
@@ -11,13 +11,12 @@ exports.getQuestion = async function (questionId) {
     return question;
 }
 
-exports.getQuestionnaireQuestion = async function (questionnaireId, questionId) {
+const getQuestionnaireQuestion = async function (questionnaireId, questionId) {
     try { // get questionnaire
         var questionnaire = await questionnaireController.getQuestionnaire(questionnaireId);
-    } catch (err) { throw err; }
-
-    questionnaire.questions instanceof Array;
-    if (questionnaire.questions.includes(questionId) === false) {
+    } catch (err) { throw err }
+    // check if it contains question's id
+    if (questionnaire.questions?.includes(questionId) === false) {
         throw new Error(`Question[${questionId}] not in Questionnaire[${questionnaireId}]`);
     }
 
@@ -25,21 +24,17 @@ exports.getQuestionnaireQuestion = async function (questionnaireId, questionId) 
         var question = await this.getQuestion(questionId);
     } catch (err) { throw err; }
 
-    question.questionnaireId = questionnaireId; // add field
-
-    return question;
+    return { ...question, questionnaireId: questionnaireId };
 
 }
 
-exports.postQuestion = (questionId, qText, required, type, options) => {
-    const question = new Question({
-        _id: questionId,
-        qText: qText,
-        required: required,
-        type: type,
-        options: options,
-    })
-
-    // upload on DB
+const postQuestion = (_question) => {
+    const question = new Question({ ..._question });
     return question.save();
+}
+
+module.exports = {
+    getQuestion,
+    getQuestionnaireQuestion,
+    postQuestion
 }

@@ -5,8 +5,8 @@ const sessionSchema = mongoose.Schema({
     questionnaires: [{
         questionnaireId: String,
         answers: [{
-            qID: String,
-            optID: String
+            questionId: String,
+            optionId: String
         }]
     }]
 });

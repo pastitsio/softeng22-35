@@ -73,22 +73,21 @@ const History = () => {
               console.error(`Error fetching questionnaires for session ${selectedSession._id}`, error);
             }
           })
-        )
-          .then(qs => {
-            let questions = unparametrize(qs);
-            let qAndAs = [];
-            selectedSession.questionnaires
-              .find(s => s.questionnaireId === questionnaireId)
-              .answers.forEach(ans => {
-                let question = questions.find(q => q._id === ans.qID);
-                let optText = question.options.find(o => o.optId === ans.optID).optText;
-                qAndAs.push({
-                  question: question.qText,
-                  answer: optText
-                });
+        ).then(qs => {
+          let questions = unparametrize(qs);
+          let qAndAs = [];
+          selectedSession.questionnaires
+          .find(s => s.questionnaireId === questionnaireId)
+          .answers.forEach(ans => {
+            let question = questions.find(q => q._id === ans.questionId);
+              let optionText = question.options.find(o => o._id === ans.optionId).optionText;
+              qAndAs.push({
+                question: question.questionText,
+                answer: optionText
               });
-            setQuestionsWithAnswers(qAndAs);
-          });
+            });
+          setQuestionsWithAnswers(qAndAs);
+        });
       }
     };
     fetchQuestionsWithAnswers();

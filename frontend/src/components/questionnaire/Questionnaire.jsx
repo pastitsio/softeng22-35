@@ -30,21 +30,21 @@ function handleSubmit(event, questionnaireId, questions, navigate) {
   let data = [], urls = [];
   for (let qi = 0; qi < questions.length; qi++) {
     const question = questions[qi];
-    let checkedOptions = question.options.filter(option => document.getElementById(option.optId).checked);
+    let checkedOptions = question.options.filter(option => document.getElementById(option._id).checked);
 
     if (checkedOptions.length < 1) {
       if (question.required === true) {
-        alert(`H ερώτηση [${question.qText}] ΠΡΕΠΕΙ να απαντηθεί!`);
+        alert(`H ερώτηση [${question.questionText}] ΠΡΕΠΕΙ να απαντηθεί!`);
         return;
       }
     } else if (checkedOptions.length > 1) {
-      alert(`More than 2 options active for Question[${question.qText}]`);
+      alert(`More than 2 options active for Question[${question.questionText}]`);
       return;
     } else { // all valid
       let option = checkedOptions[0];
-      data.push({ question: question.qText, answer: option.optText });
+      data.push({ question: question.questionText, answer: option.optionText });
       urls.push(
-        `${process.env.REACT_APP_API_SERVER_URL}/doanswer/${questionnaireId}/${question._id}/${sessionId}/${option.optId}`
+        `${process.env.REACT_APP_API_SERVER_URL}/doanswer/${questionnaireId}/${question._id}/${sessionId}/${option._id}`
       )
 
     }
@@ -58,7 +58,7 @@ const Questionnaire = () => {
   const navigate = useNavigate();
   let questionnaireId = useParams().questionnaireId;
   const [questionnaire, setQuestionnaire] = useState([]);
-  const [_questions, setQuestions] = useState([]);
+  const [questions, setQuestions] = useState([]);
   const [isVisible, setIsVisible] = useState([]);
 
   useEffect(() => {
@@ -67,22 +67,23 @@ const Questionnaire = () => {
       // get the data from the api
       let url = `${process.env.REACT_APP_API_SERVER_URL}/questionnaire/${questionnaireId}`;
       console.log(`GET ${url}`);
+      
       const response = await fetch(url);
       const json = await response.json();
-      // set state with the result
+      
+
       setQuestionnaire(json);
-      setQuestions(json.questions);
-      setIsVisible([json.questions[0]._id]);
+      setQuestions(unparametrize(json.questions));
+      setIsVisible([json.questions[0]._id]); // only first question visible
     }
-    // call the function
-    fetchData()      // make sure to catch any error
+
+    fetchData()   
       .catch(console.error);;
   }, [questionnaireId]);
 
-  let questions = unparametrize(_questions);
 
   // init
-  questions.forEach(question => {
+  questions?.forEach(question => {
     question.style = {
       display: isVisible.includes(question._id)
         ? ""
@@ -101,12 +102,12 @@ const Questionnaire = () => {
             questions.map((q) => (
               <div className="card" style={q.style} key={q._id} id={q._id} required={q.required}>
                 <div className="card-body" >
-                  <h5 className="card-title">- {q.qText}</h5>
+                  <h5 className="card-title">- {q.questionText}</h5>
                   <div className="buttons col">
                     {q.options.map(opt => (
-                      <div key={opt.optId} className="form-check" id={`form-check${opt.optId}`}>
-                        <input className="form-check-input" type="radio" name={`flexRadio${q._id}`} next={opt.nextqId} id={opt.optId} onClick={clickValue => setIsVisible(refreshResults(q._id, clickValue, isVisible))} />
-                        <label className="form-check-label" >{opt.optText}</label>
+                      <div key={opt._id} className="form-check" id={`form-check${opt._id}`}>
+                        <input className="form-check-input" type="radio" name={`flexRadio${q._id}`} next={opt.nextQuestionId} id={opt._id} onClick={clickValue => setIsVisible(refreshResults(q._id, clickValue, isVisible))} />
+                        <label className="form-check-label" >{opt.optionText}</label>
                       </div>
                     ))
                     }

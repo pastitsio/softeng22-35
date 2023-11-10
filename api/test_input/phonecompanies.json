@@ -1,142 +1,142 @@
 {
-  "questionnaireID": "QQ10",
+  "questionnaireId": "QQ10",
   "questionnaireTitle": "Phone Companies and customer satisfaction",
   "keywords": ["phone", "internet", "customers"],
   "questions": [
     {
-      "qID": "Q10Q02",
-      "qtext": "Ποια είναι η ηλικία σας;",
+      "questionId": "Q10Q02",
+      "questionText": "Ποια είναι η ηλικία σας;",
       "required": "TRUE",
-      "type": "profile",
+      "questionType": "profile",
       "options": [
         {
-          "optID": "Q02A1",
-          "opttxt": "<30",
-          "nextqID": "Q10Q03"
+          "optionId": "Q02A1",
+          "optionText": "<30",
+          "nextQuestionId": "Q10Q03"
         },
         {
-          "optID": "Q02A2",
-          "opttxt": "30-50",
-          "nextqID": "Q10Q03"
+          "optionId": "Q02A2",
+          "optionText": "30-50",
+          "nextQuestionId": "Q10Q03"
         },
         {
-          "optID": "Q02A3",
-          "opttxt": "50-70",
-          "nextqID": "Q10Q03"
+          "optionId": "Q02A3",
+          "optionText": "50-70",
+          "nextQuestionId": "Q10Q03"
         },
         {
-          "optID": "Q02A4",
-          "opttxt": ">70",
-          "nextqID": "Q10Q03"
+          "optionId": "Q02A4",
+          "optionText": ">70",
+          "nextQuestionId": "Q10Q03"
         }
       ]
     },
     {
-      "qID": "Q10Q03",
-      "qtext": "Χρησιμοποιείται σταθερή τηλεφώνια ή Internet στο σπίτι σας;",
+      "questionId": "Q10Q03",
+      "questionText": "Χρησιμοποιείται σταθερή τηλεφώνια ή Internet στο σπίτι σας;",
       "required": "TRUE",
-      "type": "question",
+      "questionType": "question",
       "options": [
         {
-          "optID": "Q03A1",
-          "opttxt": "Ναι",
-          "nextqID": "Q10Q04"
+          "optionId": "Q03A1",
+          "optionText": "Ναι",
+          "nextQuestionId": "Q10Q04"
         },
 
         {
-          "optID": "Q03A2",
-          "opttxt": "Όχι",
-          "nextqID": "Q10Q06"
+          "optionId": "Q03A2",
+          "optionText": "Όχι",
+          "nextQuestionId": "Q10Q06"
         }
       ]
     },
 
     {
-      "qID": "Q10Q04",
-      "qtext": "Με δεδομένο ότι απαντήσατε [*Q03A1] στην ερώτηση [*Q10Q03]: ποια εταιρία χρησιμοποιείται ;",
+      "questionId": "Q10Q04",
+      "questionText": "Με δεδομένο ότι απαντήσατε [*Q03A1] στην ερώτηση [*Q10Q03]: ποια εταιρία χρησιμοποιείται ;",
       "required": "FALSE",
-      "type": "question",
+      "questionType": "question",
       "options": [
         {
-          "optID": "Q04A1",
-          "opttxt": "Vodafone",
-          "nextqID": "Q10Q05"
+          "optionId": "Q04A1",
+          "optionText": "Vodafone",
+          "nextQuestionId": "Q10Q05"
         },
 
         {
-          "optID": "Q04A2",
-          "opttxt": "Cosmote",
-          "nextqID": "Q10Q05"
+          "optionId": "Q04A2",
+          "optionText": "Cosmote",
+          "nextQuestionId": "Q10Q05"
         },
 
         {
-          "optID": "Q04A3",
-          "opttxt": "Nova-Wind",
-          "nextqID": "Q10Q05"
+          "optionId": "Q04A3",
+          "optionText": "Nova-Wind",
+          "nextQuestionId": "Q10Q05"
         }
       ]
     },
 
     {
-      "qID": "Q10Q05",
-      "qtext": "Είστε ικανοποιημένοι με τισ υπηρεσίες που σας προσφέρουν ;",
+      "questionId": "Q10Q05",
+      "questionText": "Είστε ικανοποιημένοι με τισ υπηρεσίες που σας προσφέρουν ;",
       "required": "FALSE",
-      "type": "question",
+      "questionType": "question",
       "options": [
         {
-          "optID": "Q05A1",
-          "opttxt": "Ναι",
-          "nextqID": "Q10Q06"
+          "optionId": "Q05A1",
+          "optionText": "Ναι",
+          "nextQuestionId": "Q10Q06"
         },
 
         {
-          "optID": "Q05A2",
-          "opttxt": "Όχι",
-          "nextqID": "Q10Q06"
+          "optionId": "Q05A2",
+          "optionText": "Όχι",
+          "nextQuestionId": "Q10Q06"
         }
       ]
     },
 
     {
-      "qID": "Q10Q06",
-      "qtext": "Θα αλλάζατε εταιρία  ή θα ξεκινούσατε να χρήσιμοποιείται μια εταιρία εάν σας έκαναν μια πολύ καλή προσφορά;",
+      "questionId": "Q10Q06",
+      "questionText": "Θα αλλάζατε εταιρία  ή θα ξεκινούσατε να χρήσιμοποιείται μια εταιρία εάν σας έκαναν μια πολύ καλή προσφορά;",
       "required": "TRUE",
-      "type": "question",
+      "questionType": "question",
       "options": [
         {
-          "optID": "Q06A1",
-          "opttxt": "Ναι",
-          "nextqID": "Q10Q07"
+          "optionId": "Q06A1",
+          "optionText": "Ναι",
+          "nextQuestionId": "Q10Q07"
         },
         {
-          "optID": "Q06A2",
-          "opttxt": "Οχι",
-          "nextqID": "-"
+          "optionId": "Q06A2",
+          "optionText": "Οχι",
+          "nextQuestionId": "-"
         }
       ]
     },
     {
-      "qID": "Q10Q07",
-      "qtext": "Με δεδομένο ότι απαντήσατε [*Q06A1] στην ερώτηση [*Q10Q06]: Ποια εταιρία θα προτιμούσατε ;",
+      "questionId": "Q10Q07",
+      "questionText": "Με δεδομένο ότι απαντήσατε [*Q06A1] στην ερώτηση [*Q10Q06]: Ποια εταιρία θα προτιμούσατε ;",
       "required": "FALSE",
-      "type": "question",
+      "questionType": "question",
       "options": [
         {
-          "optID": "Q07A1",
-          "opttxt": "Vodafone",
-          "nextqID": "-"
+          "optionId": "Q07A1",
+          "optionText": "Vodafone",
+          "nextQuestionId": "-"
         },
 
         {
-          "optID": "Q07A2",
-          "opttxt": "Cosmote",
-          "nextqID": "-"
+          "optionId": "Q07A2",
+          "optionText": "Cosmote",
+          "nextQuestionId": "-"
         },
 
         {
-          "optID": "Q07A3",
-          "opttxt": "Nova-Wind",
-          "nextqID": "-"
+          "optionId": "Q07A3",
+          "optionText": "Nova-Wind",
+          "nextQuestionId": "-"
         }
       ]
     }

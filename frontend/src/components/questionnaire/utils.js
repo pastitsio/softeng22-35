@@ -17,7 +17,7 @@ function unparametrize(questions) {
     // construct parametrized options
     var m, matches = [];
     const regex = /(?:(?:\[\*(\w+)\])+)/gm;
-    while ((m = regex.exec(question.qText)) !== null) {
+    while ((m = regex.exec(question.questionText)) !== null) {
       // This is necessary to avoid infinite loops with zero-width matches
       if (m.index === regex.lastIndex) {
         regex.lastIndex++;
@@ -31,12 +31,12 @@ function unparametrize(questions) {
       let replaceOption = questions
         .find(q => q._id === parametricQuestionId)
         .options
-        .find(o => o.optId === parametricOptionId);
+        .find(o => o._id === parametricOptionId);
 
-      question.qText = question.qText.replace(/\[(\*\w+)\]/m, `[${replaceOption.optText}]`);
+      question.questionText = question.questionText.replace(/\[(\*\w+)\]/m, `[${replaceOption.optionText}]`);
 
       let questionToReplace = questions.find(q => q._id === parametricQuestionId); // +1 because first question is email question, hardcoded.
-      question.qText = question.qText.replace(/\[(\*\w+)\]/m, `[${questionToReplace.qText}]`);
+      question.questionText = question.questionText.replace(/\[(\*\w+)\]/m, `[${questionToReplace.questionText}]`);
     }
   })
   return questions;

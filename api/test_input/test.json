@@ -1,223 +1,223 @@
 {
-    "questionnaireID": "testQQ00",
+    "questionnaireId": "testQQ00",
     "questionnaireTitle": "My first research questionnaire",
     "keywords": ["footbal", "islands", "timezone"],
     "questions": [
       {
-        "qID": "testP01",
-        "qtext": "Ποια είναι η ηλικία σας;",
+        "questionId": "testP01",
+        "questionText": "Ποια είναι η ηλικία σας;",
         "required": "TRUE",
         "type": "profile",
         "options": [
           {
-            "optID": "testP01A1",
-            "opttxt": "<30",
-            "nextqID": "testQ01"
+            "optionId": "testP01A1",
+            "optionText": "<30",
+            "nextQuestionId": "testQ01"
           },
           {
-            "optID": "testP01A2",
-            "opttxt": "30-50",
-            "nextqID": "testQ01"
+            "optionId": "testP01A2",
+            "optionText": "30-50",
+            "nextQuestionId": "testQ01"
           },
           {
-            "optID": "testP01A3",
-            "opttxt": "50-70",
-            "nextqID": "testQ01"
+            "optionId": "testP01A3",
+            "optionText": "50-70",
+            "nextQuestionId": "testQ01"
           },
           {
-            "optID": "testP01A4",
-            "opttxt": ">70",
-            "nextqID": "testQ01"
+            "optionId": "testP01A4",
+            "optionText": ">70",
+            "nextQuestionId": "testQ01"
           }
         ]
       },
       {
-        "qID": "testQ01",
-        "qtext": "Ποιο είναι το αγαπημένο σας χρώμα;",
+        "questionId": "testQ01",
+        "questionText": "Ποιο είναι το αγαπημένο σας χρώμα;",
         "required": "TRUE",
         "type": "question",
         "options": [
           {
-            "optID": "testQ01A1",
-            "opttxt": "Πράσινο",
-            "nextqID": "testQ02"
+            "optionId": "testQ01A1",
+            "optionText": "Πράσινο",
+            "nextQuestionId": "testQ02"
           },
   
           {
-            "optID": "testQ01A2",
-            "opttxt": "Κόκκινο",
-            "nextqID": "testQ02"
+            "optionId": "testQ01A2",
+            "optionText": "Κόκκινο",
+            "nextQuestionId": "testQ02"
           },
   
           {
-            "optID": "testQ01A3",
-            "opttxt": "Κίτρινο",
-            "nextqID": "testQ02"
+            "optionId": "testQ01A3",
+            "optionText": "Κίτρινο",
+            "nextQuestionId": "testQ02"
           }
         ]
       },
   
       {
-        "qID": "testQ02",
-        "qtext": "Ασχολείστε με το ποδόσφαιρο;",
+        "questionId": "testQ02",
+        "questionText": "Ασχολείστε με το ποδόσφαιρο;",
         "required": "TRUE",
         "type": "question",
         "options": [
           {
-            "optID": "testQ02A1",
-            "opttxt": "Ναι",
-            "nextqID": "testQ03"
+            "optionId": "testQ02A1",
+            "optionText": "Ναι",
+            "nextQuestionId": "testQ03"
           },
   
           {
-            "optID": "testQ02A2",
-            "opttxt": "Οχι",
-            "nextqID": "testQ04"
+            "optionId": "testQ02A2",
+            "optionText": "Οχι",
+            "nextQuestionId": "testQ04"
           }
         ]
       },
   
       {
-        "qID": "testQ03",
-        "qtext": "Τι ομάδα είστε;",
+        "questionId": "testQ03",
+        "questionText": "Τι ομάδα είστε;",
         "required": "FALSE",
         "type": "question",
         "options": [
           {
-            "optID": "testQ03A1",
-            "opttxt": "Παναθηναϊκός",
-            "nextqID": "testQ04"
+            "optionId": "testQ03A1",
+            "optionText": "Παναθηναϊκός",
+            "nextQuestionId": "testQ04"
           },
   
           {
-            "optID": "testQ03A2",
-            "opttxt": "Ολυμπιακός ",
-            "nextqID": "testQ04"
+            "optionId": "testQ03A2",
+            "optionText": "Ολυμπιακός ",
+            "nextQuestionId": "testQ04"
           },
   
           {
-            "optID": "testQ03A3",
-            "opttxt": "ΑΕΚ",
-            "nextqID": "testQ04"
+            "optionId": "testQ03A3",
+            "optionText": "ΑΕΚ",
+            "nextQuestionId": "testQ04"
           }
         ]
       },
   
       {
-        "qID": "testQ04",
-        "qtext": "Έχετε ζήσει σε νησί;",
+        "questionId": "testQ04",
+        "questionText": "Έχετε ζήσει σε νησί;",
         "required": "TRUE",
         "type": "question",
         "options": [
           {
-            "optID": "testQ04A1",
-            "opttxt": "Ναι",
-            "nextqID": "testQ05"
+            "optionId": "testQ04A1",
+            "optionText": "Ναι",
+            "nextQuestionId": "testQ05"
           },
           {
-            "optID": "testQ04A2",
-            "opttxt": "Οχι",
-            "nextqID": "testQ06"
+            "optionId": "testQ04A2",
+            "optionText": "Οχι",
+            "nextQuestionId": "testQ06"
           }
         ]
       },
       {
-        "qID": "testQ05",
-        "qtext": "Με δεδομένο ότι απαντήσατε [*testQ04A1] στην ερώτηση [*testQ04]: Ποια η σχέση σας με το θαλάσσιο σκι;",
+        "questionId": "testQ05",
+        "questionText": "Με δεδομένο ότι απαντήσατε [*testQ04A1] στην ερώτηση [*testQ04]: Ποια η σχέση σας με το θαλάσσιο σκι;",
         "required": "FALSE",
         "type": "question",
         "options": [
           {
-            "optID": "testQ05A1",
-            "opttxt": "Καμία",
-            "nextqID": "testQ07"
+            "optionId": "testQ05A1",
+            "optionText": "Καμία",
+            "nextQuestionId": "testQ07"
           },
           {
-            "optID": "testQ05A2",
-            "opttxt": "Μικρή",
-            "nextqID": "testQ07"
+            "optionId": "testQ05A2",
+            "optionText": "Μικρή",
+            "nextQuestionId": "testQ07"
           },
           {
-            "optID": "testQ05A3",
-            "opttxt": "Μεγάλη",
-            "nextqID": "testQ07"
+            "optionId": "testQ05A3",
+            "optionText": "Μεγάλη",
+            "nextQuestionId": "testQ07"
           }
         ]
       },
       {
-        "qID": "testQ06",
-        "qtext": "Είστε χειμερινός κολυμβητής",
+        "questionId": "testQ06",
+        "questionText": "Είστε χειμερινός κολυμβητής",
         "required": "FALSE",
         "type": "question",
         "options": [
           {
-            "optID": "testQ06A1",
-            "opttxt": "Ναι",
-            "nextqID": "testQ07"
+            "optionId": "testQ06A1",
+            "optionText": "Ναι",
+            "nextQuestionId": "testQ07"
           },
           {
-            "optID": "testQ06A2",
-            "opttxt": "Οχι",
-            "nextqID": "testQ07"
+            "optionId": "testQ06A2",
+            "optionText": "Οχι",
+            "nextQuestionId": "testQ07"
           }
         ]
       },
       {
-        "qID": "testQ07",
-        "qtext": "Κάνετε χειμερινό σκι;",
+        "questionId": "testQ07",
+        "questionText": "Κάνετε χειμερινό σκι;",
         "required": "TRUE",
         "type": "question",
         "options": [
           {
-            "optID": "testQ07A1",
-            "opttxt": "Σπάνια - καθόλου",
-            "nextqID": "testQ08"
+            "optionId": "testQ07A1",
+            "optionText": "Σπάνια - καθόλου",
+            "nextQuestionId": "testQ08"
           },
           {
-            "optID": "testQ07A2",
-            "opttxt": "Περιστασιακά",
-            "nextqID": "testQ08"
+            "optionId": "testQ07A2",
+            "optionText": "Περιστασιακά",
+            "nextQuestionId": "testQ08"
           },
           {
-            "optID": "testQ07A3",
-            "opttxt": "Τακτικά",
-            "nextqID": "testQ08"
+            "optionId": "testQ07A3",
+            "optionText": "Τακτικά",
+            "nextQuestionId": "testQ08"
           }
         ]
       },
       {
-        "qID": "testQ08",
-        "qtext": "Συμφωνείτε να αλλάζει η ώρα κάθε χρόνο;",
+        "questionId": "testQ08",
+        "questionText": "Συμφωνείτε να αλλάζει η ώρα κάθε χρόνο;",
         "required": "TRUE",
         "type": "question",
         "options": [
           {
-            "optID": "testQ08A1",
-            "opttxt": "Ναι",
-            "nextqID": "testQ09"
+            "optionId": "testQ08A1",
+            "optionText": "Ναι",
+            "nextQuestionId": "testQ09"
           },
           {
-            "optID": "testQ08A2",
-            "opttxt": "Οχι",
-            "nextqID": "-"
+            "optionId": "testQ08A2",
+            "optionText": "Οχι",
+            "nextQuestionId": "-"
           }
         ]
       },
       {
-        "qID": "testQ09",
-        "qtext": "Με δεδομένο ότι απαντήσατε [*testQ08A2] στην ερώτηση [*testQ08]: Προτιμάτε τη θερινή ή την χειμερινή ώρα;",
+        "questionId": "testQ09",
+        "questionText": "Με δεδομένο ότι απαντήσατε [*testQ08A2] στην ερώτηση [*testQ08]: Προτιμάτε τη θερινή ή την χειμερινή ώρα;",
         "required": "FALSE",
         "type": "question",
         "options": [
           {
-            "optID": "testQ09A1",
-            "opttxt": "Θερινή",
-            "nextqID": "-"
+            "optionId": "testQ09A1",
+            "optionText": "Θερινή",
+            "nextQuestionId": "-"
           },
           {
-            "optID": "testQ09A2",
-            "opttxt": "Χειμερινή",
-            "nextqID": "-"
+            "optionId": "testQ09A2",
+            "optionText": "Χειμερινή",
+            "nextQuestionId": "-"
           }
         ]
       }

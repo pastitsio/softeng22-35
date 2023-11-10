@@ -28,7 +28,7 @@ const Answer = () => {
 
   return (
     <div className="Answer">
-      <Filters qs={questionnaires} />
+      <Filters questionnaires={questionnaires} />
     </div>
   );
 

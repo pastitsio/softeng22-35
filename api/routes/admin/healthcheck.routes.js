@@ -3,7 +3,7 @@ const express = require("express");
 const { default: mongoose } = require("mongoose");
 const router = express.Router();
 
-const server = require('../server');
+const server = require('../../server');
 // API call for testing the connection with the database
 
 router.get("/", (req, res, next) => {
@@ -11,12 +11,12 @@ router.get("/", (req, res, next) => {
     if (state) {
         res.status(200).json({
             status: "OK",
-            dbconnection: "Database connected and ready to use."
+            message: "Database connected and ready to use."
         })
     } else {
         res.status(500).json({
             status: "Failed", 
-            dbconnection: "There seems to be a problem with the database at this moment."
+            message: "There seems to be a problem with the database at this moment."
         })}
 
 });// 200: success

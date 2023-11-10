@@ -1,23 +1,30 @@
 const colors = require('colors/safe');
-const http = require('http');
-const fs = require('fs');
-const mongoose = require('mongoose');
+require('dotenv').config();
 
 const app = require('./app');
+const db = require('./db');
 
 // fancy log
 colors.enable();
-const log = (x) => { console.log(colors.cyan.underline(x)); }
-
-// app server
-const server_port = process.env.PORT || 4000;
-http.createServer(app).listen(server_port,
-    () => {
-        log(`Running https on port: {${server_port}}.`)
-    });
-
+const fancyLog = (x) => { console.log(colors.cyan.underline(`[my app] ${x}`)); }
 
 // DB
-mongoose.set('strictQuery', true);
 const uri = `mongodb+srv://admin:${process.env.MONGO_ATLAS_PW}@${process.env.MONGO_ATLAS_CLUSTER}/?retryWrites=true&w=majority`;
-mongoose.connect(uri);
+
+// runtime
+const host = process.env.APP_HOST || "localhost";
+const port = process.env.APP_PORT || 5000;
+
+// run
+const spinServer = async () => {
+    try {
+        fancyLog(await db.connect(uri));
+        app.listen(port, () =>
+            fancyLog(`Running on http://${host}:${port}/...`)
+        );
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+spinServer();

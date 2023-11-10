@@ -25,7 +25,8 @@ exports.getSessionAnswers = async (questionnaireId, sessionId) => {
     }
 
     // find questionnaire
-    const questionnaire = session.questionnaires.find(q => q.questionnaireId === questionnaireId);
+    const questionnaire = session.questionnaires
+        .find(q => q.questionnaireId === questionnaireId);
     if (questionnaire === undefined) {
         throw new Error(`Questionnaire[${questionnaireId}] not in Session[${sessionId}].`)
     }
@@ -43,15 +44,18 @@ exports.getQuestionAnswers = async (questionnaireId, questionId) => {
 
     for await (const session of Session.find()) { // for every session
         // find session containing questionnaire
-        var sQ = session.questionnaires.find(q => (q.questionnaireId === questionnaireId));
+        var sessionQuestionnaire = session.questionnaires
+            .find(q => (q.questionnaireId === questionnaireId));
 
-        if (sQ) {
+        if (sessionQuestionnaire) {
             // find answers containing questionId
-            if (sQ.answers) {
-                var answer = sQ.answers.find(ans => ans.qID === questionId);
+            if (sessionQuestionnaire.answers) {
+                var answer = sessionQuestionnaire.answers
+                    .find(ans => ans.questionId === questionId);
+
                 ret.push({
                     session: session._id,
-                    ans: answer.optID
+                    ans: answer.optionId
                 });
             }
         }
@@ -60,7 +64,7 @@ exports.getQuestionAnswers = async (questionnaireId, questionId) => {
     if (ret.length !== 0) {
         return {
             questionnaireId: questionnaireId,
-            questionID: questionId,
+            questionId: questionId,
             ret
         };
     } else {
@@ -75,54 +79,54 @@ exports.postQuestinnaireQuestionSessionOption = async (req, res, next) => {
     const optionId = req.params.optionId;
 
     try {
-        var question = await questionController.getQuestionnaireQuestion(questionnaireId, questionId); // error if not found.
+        var question = await questionController
+            .getQuestionnaireQuestion(questionnaireId, questionId); // error if not found.
 
-        if (question.options.some(opt => opt.optId === optionId)) { // error if question option is not valid.
-
-            const sessionAnswer = { qID: questionId, optID: optionId };
-
-            var session = await Session // fetch, if not exists, create with sessionId.
-                .findOneAndUpdate(
-                    { _id: sessionId }, {},
-                    { new: true, upsert: true }
-                ).lean();
-
-            // session.questionnaires instanceof Array;
-            var sQindex = session.questionnaires.findIndex(q => q.questionnaireId === questionnaireId); // find Q index
-            var myQ;
-
-            if (sQindex === -1) {
-                // questionnaire never replied in session, init entry
-                myQ = { questionnaireId: questionnaireId, answers: [] };
-            } else {
-                // if replied, fetch entry and remove it from array since it'll be updated.
-                myQ = session.questionnaires[sQindex];
-                session.questionnaires.splice(sQindex, 1);
-            }
-
-            // Update answers
-            if ((myQ.answers.length === 0) || // no answers given or
-                (myQ.answers.every(a => a.optID !== optionId))) { // answer not given before.
-                myQ.answers.push(sessionAnswer);
-            }
-
-            // update session questionnaires.
-            session.questionnaires.push(myQ);
-            await Session.updateOne(
-                { _id: sessionId },
-                {
-                    $set: {
-                        questionnaires: session.questionnaires
-                    }
-                });
-
-            res.status(200).json({
-                success: true,
-                message: `Answer ${questionnaireId} ${questionId} ${sessionId} ${optionId} uploaded.`
-            });
-            // } catch (err) { throw new Error("Problem uploading answer.") };
-        } else {
+        // error if question.option is not valid.
+        if (question.options.every(opt => opt._id !== optionId)) {
             throw new Error(`Option[${optionId}] not in Question[${questionId}].`)
         }
+
+        const sessionAnswer = { questionId: questionId, optionId: optionId };
+        var session = await Session // try to fetch; if not exists, create with sessionId.
+            .findOneAndUpdate(
+                { _id: sessionId }, {},
+                { new: true, upsert: true }
+            ).lean();
+
+        var sesQuestionnaireIdx = session.questionnaires
+            .findIndex(q => q.questionnaireId === questionnaireId); // find Questionnaire index
+
+        var myQuestionnaire;
+        if (sesQuestionnaireIdx === -1) {
+            // questionnaire never replied in session, init entry
+            myQuestionnaire = { questionnaireId: questionnaireId, answers: [] };
+        } else {
+            // if replied, fetch entry and remove it from array since it'll be updated.
+            myQuestionnaire = session.questionnaires[sesQuestionnaireIdx];
+            session.questionnaires.splice(sesQuestionnaireIdx, 1);
+        }
+
+        // Update answers
+        if ((myQuestionnaire.answers.length === 0) || // no answers given or
+            (myQuestionnaire.answers.every(a => a.optionId !== optionId))) { // answer not given before.
+            myQuestionnaire.answers.push(sessionAnswer);
+        }
+
+        // update session questionnaires.
+        session.questionnaires.push(myQuestionnaire);
+        await Session.updateOne(
+            { _id: sessionId },
+            {
+                $set: {
+                    questionnaires: session.questionnaires
+                }
+            });
+
+        res.status(200).json({
+            success: true,
+            message: `Answer ${questionnaireId} ${questionId} ${sessionId} ${optionId} uploaded.`
+        });
+
     } catch (err) { next(err); }
 }

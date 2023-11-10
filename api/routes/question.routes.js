@@ -1,9 +1,21 @@
 const express = require("express");
 const router = express.Router();
 
-const formatData = require('../helpers/helpers').formatData;
+const formatData = require('../utilities').formatData;
 
 const questionController = require('../controllers/question.controller');
+
+router.post("/", async (req, res, next) => {
+    const question = req.body;
+
+    try {
+        await questionController.postQuestion(question);
+        res.status(200).json({
+            success: true,
+            message: `Question[${question?.questionId}] uploaded.`
+        });
+    } catch (err) { next(err) };
+})
 
 
 router.get("/:questionId", async (req, res, next) => {
@@ -22,27 +34,10 @@ router.get("/:questionnaireId/:questionId", async (req, res, next) => {
     const questionId = req.params.questionId;
 
     try {
-        const question = await questionController.getQuestionnaireQuestion(questionnaireId, questionId);
+        const question = await questionController
+            .getQuestionnaireQuestion(questionnaireId, questionId);
         res.status(200).send(formatData(format, question));
-    } catch (err) { next(err); };
-})
-
-router.post("/", (req, res, next) => {
-    const _id = req.body.questionId;
-    const qText = req.body.qText;
-    const required = req.body.required;
-    const type = req.body.type;
-    const options = req.body.options;
-
-    questionController.postQuestion(_id, qText, required, type, options)
-        .then(() => {
-            console.log("mpainei");
-            res.status(200).json({
-                success: true,
-                message: `Question[${_id}] uploaded.`
-            });
-        })
-        .catch(next);
+    } catch (err) { next(err) };
 })
 
 module.exports = router;
